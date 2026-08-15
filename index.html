@@ -3,146 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embedded Finance and User Experience Study</title>
+  <title>Usability Experience Study</title>
   <style>
-    /* ============================================
-       BASE STYLES
-       ============================================ */
+    :root {
+      --primary: #0f3460;
+      --primary-light: #1a4a7a;
+      --accent: #e94560;
+      --accent-light: #ff6b6b;
+      --success: #2ecc71;
+      --bg-dark: #1a1a2e;
+      --bg-mid: #16213e;
+      --text: #333;
+      --text-light: #666;
+      --border: #d0d0d0;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 16px;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 50%, #0f3460 100%);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px 20px;
-      color: #333;
+      color: var(--text);
+      line-height: 1.6;
     }
 
-    .survey-container {
-      background: #ffffff;
-      width: 100%;
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .survey-card {
+      flex: 1;
       max-width: 720px;
-      border-radius: 20px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    /* Header */
     .survey-header {
-      background: linear-gradient(135deg, #0f3460, #16213e);
+      background: linear-gradient(135deg, var(--primary), var(--bg-mid));
       color: white;
       padding: 35px 40px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .survey-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .header-plane {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      opacity: 0.9;
     }
 
     .survey-header h1 {
       font-size: 26px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       line-height: 1.3;
     }
 
     .survey-header p {
-      font-size: 14px;
+      font-size: 13px;
       opacity: 0.85;
       line-height: 1.5;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
-    /* Progress Bar */
-    .progress-wrapper {
+    .top-progress {
+      height: 5px;
       background: #e8e8e8;
-      height: 6px;
       width: 100%;
-      position: relative;
     }
-
-    .progress-fill {
+    .top-progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #e94560, #ff6b6b);
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
       width: 0%;
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .progress-step-label {
+    .step-label {
       text-align: center;
-      font-size: 13px;
-      color: #666;
+      font-size: 12px;
+      color: #888;
       padding: 10px;
       background: #f8f9fa;
       border-bottom: 1px solid #e0e0e0;
       font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
-    /* Form Body */
     .form-body {
-      padding: 35px 40px;
+      padding: 30px 40px 40px;
     }
 
-    /* Step Sections */
     .step {
       display: none;
       animation: fadeIn 0.4s ease;
     }
-
-    .step.active {
-      display: block;
-    }
+    .step.active { display: block; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .section-title {
       font-size: 20px;
-      color: #0f3460;
-      margin-bottom: 25px;
-      padding-bottom: 12px;
-      border-bottom: 3px solid #e94560;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--accent);
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .section-desc {
       font-size: 14px;
       color: #555;
-      margin-bottom: 25px;
-      line-height: 1.6;
+      margin-bottom: 22px;
+      line-height: 1.65;
       background: #f0f4f8;
-      padding: 15px;
+      padding: 14px 16px;
       border-radius: 10px;
-      border-left: 4px solid #0f3460;
+      border-left: 4px solid var(--primary);
     }
 
-    /* Question Block */
+    .consent-box {
+      background: #fff8f0;
+      border: 2px solid #ffd8a8;
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #444;
+    }
+
+    .consent-box h3 {
+      color: #d9480f;
+      font-size: 15px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .consent-box strong {
+      color: #d9480f;
+      font-weight: 700;
+    }
+
+    .consent-box ol {
+      margin: 10px 0 10px 22px;
+    }
+
+    .consent-box ol li {
+      margin-bottom: 6px;
+    }
+
     .question {
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
 
     .question-label {
       display: block;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14.5px;
       color: #222;
       margin-bottom: 10px;
       line-height: 1.5;
     }
 
     .required-star {
-      color: #e94560;
+      color: var(--accent);
       font-weight: 700;
     }
 
-    /* Inputs */
     input[type="text"],
     input[type="email"],
     input[type="number"],
     textarea {
       width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #d0d0d0;
+      padding: 13px 15px;
+      border: 2px solid var(--border);
       border-radius: 10px;
       font-size: 15px;
       font-family: inherit;
@@ -152,28 +217,32 @@
 
     input:focus, textarea:focus {
       outline: none;
-      border-color: #0f3460;
+      border-color: var(--primary);
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(15, 52, 96, 0.1);
+      box-shadow: 0 0 0 4px rgba(15, 52, 96, 0.08);
+    }
+
+    input.error, textarea.error {
+      border-color: var(--accent);
+      background: #fff5f5;
     }
 
     textarea {
       resize: vertical;
-      min-height: 100px;
+      min-height: 90px;
     }
 
-    /* Radio & Checkbox Groups */
     .option-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .option-label {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       border: 2px solid #e0e0e0;
       border-radius: 10px;
       cursor: pointer;
@@ -183,29 +252,28 @@
     }
 
     .option-label:hover {
-      border-color: #0f3460;
+      border-color: var(--primary);
       background: #f0f4f8;
     }
 
     .option-label input {
       width: 18px;
       height: 18px;
-      accent-color: #0f3460;
+      accent-color: var(--primary);
       flex-shrink: 0;
     }
 
     .option-label.selected {
-      border-color: #0f3460;
+      border-color: var(--primary);
       background: #e8f0fe;
       font-weight: 600;
     }
 
-    /* Likert Scale */
     .likert-container {
       display: flex;
       justify-content: space-between;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 5px;
+      margin-top: 8px;
     }
 
     .likert-option {
@@ -213,85 +281,81 @@
       text-align: center;
     }
 
-    .likert-option input {
-      display: none;
-    }
+    .likert-option input { display: none; }
 
     .likert-box {
       display: block;
-      padding: 14px 4px;
-      border: 2px solid #d0d0d0;
+      padding: 14px 2px;
+      border: 2px solid var(--border);
       border-radius: 10px;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       color: #555;
       transition: all 0.2s;
       background: #fafafa;
     }
 
     .likert-box:hover {
-      border-color: #0f3460;
+      border-color: var(--primary);
       background: #f0f4f8;
     }
 
     .likert-option input:checked + .likert-box {
-      background: linear-gradient(135deg, #0f3460, #16213e);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
-      border-color: #0f3460;
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(15, 52, 96, 0.3);
+      border-color: var(--primary);
+      transform: scale(1.06);
+      box-shadow: 0 4px 12px rgba(15, 52, 96, 0.25);
     }
 
     .likert-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
-      color: #888;
-      margin-top: 8px;
-      padding: 0 4px;
+      font-size: 11px;
+      color: #999;
+      margin-top: 6px;
+      padding: 0 2px;
     }
 
-    /* Conditional field */
     .conditional-field {
       display: none;
       margin-top: 10px;
       padding-left: 10px;
       animation: fadeIn 0.3s ease;
     }
+    .conditional-field.visible { display: block; }
 
-    .conditional-field.visible {
-      display: block;
-    }
-
-    /* Consent Box */
-    .consent-box {
-      background: #fff8f0;
-      border: 2px solid #ffd8a8;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
+    .age-error {
+      display: none;
+      background: #ffe0e0;
+      color: #c92a2a;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-top: 10px;
       font-size: 14px;
-      line-height: 1.7;
-      color: #444;
+      font-weight: 600;
+      border: 1px solid #ffa8a8;
+    }
+    .age-error.visible { display: block; animation: shake 0.4s ease; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
 
-    .consent-box strong {
-      color: #d9480f;
-    }
-
-    /* Navigation Buttons */
     .nav-buttons {
       display: flex;
       gap: 12px;
-      margin-top: 35px;
-      padding-top: 25px;
+      margin-top: 30px;
+      padding-top: 22px;
       border-top: 1px solid #e0e0e0;
     }
 
     .btn {
       flex: 1;
-      padding: 15px 24px;
+      padding: 14px 22px;
       border: none;
       border-radius: 10px;
       font-size: 15px;
@@ -305,17 +369,13 @@
       background: #e8e8e8;
       color: #555;
     }
-
-    .btn-prev:hover {
-      background: #d0d0d0;
-    }
+    .btn-prev:hover { background: #d0d0d0; }
 
     .btn-next, .btn-submit {
-      background: linear-gradient(135deg, #e94560, #c73e54);
+      background: linear-gradient(135deg, var(--accent), #c73e54);
       color: white;
       box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
     }
-
     .btn-next:hover, .btn-submit:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
@@ -327,537 +387,818 @@
       transform: none !important;
     }
 
-    /* Status Message */
     .status-msg {
-      margin-top: 20px;
-      padding: 16px;
+      margin-top: 18px;
+      padding: 14px;
       border-radius: 10px;
       text-align: center;
       font-weight: 600;
       display: none;
+      font-size: 14px;
     }
+    .status-msg.success { display: block; background: #d3f9d8; color: #2b8a3e; border: 1px solid #8ce99a; }
+    .status-msg.error { display: block; background: #ffe0e0; color: #c92a2a; border: 1px solid #ffa8a8; }
+    .status-msg.loading { display: block; background: #e7f5ff; color: #1864ab; border: 1px solid #74c0fc; }
 
-    .status-msg.success {
-      display: block;
-      background: #d3f9d8;
-      color: #2b8a3e;
-      border: 1px solid #8ce99a;
-    }
-
-    .status-msg.error {
-      display: block;
-      background: #ffe0e0;
-      color: #c92a2a;
-      border: 1px solid #ffa8a8;
-    }
-
-    .status-msg.loading {
-      display: block;
-      background: #e7f5ff;
-      color: #1864ab;
-      border: 1px solid #74c0fc;
-    }
-
-    /* Thank You Screen */
     .thank-you {
       text-align: center;
       padding: 50px 20px;
       display: none;
     }
+    .thank-you.active { display: block; animation: fadeIn 0.6s ease; }
+    .thank-you h2 { font-size: 30px; color: var(--primary); margin-bottom: 12px; }
+    .thank-you p { font-size: 15px; color: #555; line-height: 1.6; }
 
-    .thank-you.active {
-      display: block;
-      animation: fadeIn 0.6s ease;
+    .sidebar {
+      width: 320px;
+      position: sticky;
+      top: 40px;
+      flex-shrink: 0;
     }
 
-    .thank-you h2 {
-      font-size: 32px;
-      color: #0f3460;
-      margin-bottom: 15px;
+    .sidebar-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
     }
 
-    .thank-you p {
-      font-size: 16px;
+    .sidebar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    }
+
+    .sidebar-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-header svg {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-header h3 {
+      font-size: 17px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .sidebar-header p {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .tracker {
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .tracker-line {
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background: #e8e8e8;
+      border-radius: 2px;
+    }
+
+    .tracker-line-fill {
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--success));
+      border-radius: 2px;
+      transition: height 0.5s ease;
+      height: 0%;
+    }
+
+    .tracker-step {
+      position: relative;
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.45;
+      transition: opacity 0.3s;
+    }
+
+    .tracker-step.active { opacity: 1; }
+    .tracker-step.completed { opacity: 0.7; }
+
+    .tracker-icon {
+      position: absolute;
+      left: -36px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #e8e8e8;
+      transition: all 0.3s;
+      z-index: 2;
+    }
+
+    .tracker-step.active .tracker-icon {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.15);
+    }
+
+    .tracker-step.completed .tracker-icon {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .tracker-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .tracker-step.active .tracker-icon svg,
+    .tracker-step.completed .tracker-icon svg {
+      stroke: white;
+    }
+
+    .tracker-text {
+      font-size: 12px;
+      font-weight: 600;
       color: #555;
-      line-height: 1.6;
+      line-height: 1.3;
     }
 
-    /* Mobile */
-    @media (max-width: 600px) {
-      body { padding: 10px; }
-      .survey-header { padding: 25px 20px; }
-      .survey-header h1 { font-size: 20px; }
-      .form-body { padding: 25px 20px; }
-      .likert-box { font-size: 11px; padding: 12px 2px; }
-      .likert-labels { font-size: 10px; }
+    .tracker-step.active .tracker-text {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .progress-stats {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed #d0d0d0;
+      text-align: center;
+    }
+
+    .progress-percent {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .progress-message {
+      background: linear-gradient(135deg, #f0f4f8, #e8f0fe);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      line-height: 1.5;
+      border-left: 4px solid var(--accent);
+      text-align: left;
+      position: relative;
+    }
+
+    .progress-message::before {
+      content: '"';
+      font-size: 28px;
+      color: var(--accent);
+      opacity: 0.3;
+      position: absolute;
+      top: 2px;
+      left: 10px;
+      font-family: Georgia, serif;
+    }
+
+    @media (max-width: 1024px) {
+      .page-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+      .sidebar {
+        display: none;
+      }
+      .survey-card {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-wrapper { padding: 10px; }
+      .survey-header { padding: 24px 20px; }
+      .survey-header h1 { font-size: 18px; }
+      .form-body { padding: 20px; }
+      .section-title { font-size: 17px; }
+      .likert-box { font-size: 13px; padding: 12px 1px; }
+      .likert-labels { font-size: 9px; }
       .nav-buttons { flex-direction: column; }
+      .btn { padding: 12px; }
+      .consent-box { padding: 16px; font-size: 12.5px; }
     }
   </style>
 <base target="_blank">
 </head>
 <body>
 
-  <div class="survey-container">
-    <!-- Header -->
-    <div class="survey-header">
-      <h1>Embedded Finance and User Experience Study</h1>
-      <p>Asian Institute of Technology | Exploring the relationship between usability metrics, consumer perceptions, and behavioral willingness to adopt embedded finance.</p>
-    </div>
+  <div class="page-wrapper">
+    <div class="survey-card">
+      <div class="survey-header">
+        <svg class="header-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12h20"/>
+          <path d="M13 2l9 10-9 10"/>
+          <path d="M13 2v20"/>
+        </svg>
+        <h1>Usability Experience Study</h1>
+        <p>Asian Institute of Technology &mdash; Exploring the relationship between usability metrics, consumer perceptions, and behavioral willingness to adopt.</p>
+      </div>
 
-    <!-- Progress Bar -->
-    <div class="progress-wrapper">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-step-label" id="progressLabel">Step 1 of 8: Consent Form</div>
+      <div class="top-progress">
+        <div class="top-progress-fill" id="topProgressFill"></div>
+      </div>
+      <div class="step-label" id="stepLabel">Step 1 of 8: Consent Form</div>
 
-    <!-- Form -->
-    <div class="form-body" id="formBody">
-      <form id="surveyForm">
+      <div class="form-body" id="formBody">
+        <form id="surveyForm">
 
-        <!-- ==================== STEP 1: CONSENT ==================== -->
-        <div class="step active" data-step="1">
-          <div class="section-title">1. Consent Form</div>
-          <div class="consent-box">
-            <p><strong>Taking Part in the Study:</strong></p>
-            <p>I have read and understood the study information. I have been able to ask questions about the study and my questions have been answered to my satisfaction. I consent voluntarily to participate in this study and understand that I can refuse to answer questions and I can withdraw from the study at any time without having to give a reason.</p>
-            <br>
-            <p>I understand that taking part in this study will require me to share a unique Booking ID from a past booking I made on Agoda and I provide permission to the research team to approach Agoda for the following server-side data for the Booking ID I provide:</p>
-            <ol style="margin: 10px 0 10px 20px;">
-              <li>Number of clicks</li>
-              <li>Task Duration</li>
-              <li>Task Deviation</li>
-            </ol>
-            <br>
-            <p><strong>Use of Information in the Study:</strong></p>
-            <p>I understand the data I provide will be used for academic research purposes and possibly published in an academic journal. Personal data that can identify me (e.g., name or email) will not be shared beyond the study team. Data will be stored securely and not retained beyond 5 years.</p>
-          </div>
+          <!-- STEP 1: CONSENT -->
+          <div class="step active" data-step="1">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              1. Consent Form
+            </div>
 
-          <div class="question">
-            <label class="question-label">
-              I agree to participate and consent to the data use described above. <span class="required-star">*</span>
-            </label>
-            <div class="option-group">
-              <label class="option-label">
-                <input type="checkbox" name="Consent" value="Yes" required>
-                <span>Yes, I consent</span>
+            <div class="section-desc">
+              <strong>Details of Study:</strong> This academic research project at the Asian Institute of Technology on Embedded Finance is aimed at exploring the relationship between usability metrics (clicks, task duration, task deviation), consumer perceptions and perceived financial flexibility.
+              <br><br>
+              <strong>Instructions:</strong> Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 60 days using the Pay-Later option.
+              <br><br>
+              <span style="color: var(--accent);">*</span> Indicates required question.
+            </div>
+
+            <div class="consent-box">
+              <h3>Taking Part in the Study</h3>
+              <p>I have read and understood the study information. I have had the opportunity to contact the research team with any questions about the study. My participation is voluntary. I may refuse to answer any question and may stop the survey at any time before submitting my response. After my data have been de-identified and incorporated into the research dataset, it may no longer be possible to identify and remove my individual response. I understand that the researchers conducting this study may be employed by Agoda. My participation is voluntary and will not affect my Agoda account or relationship with Agoda.</p>
+              <br>
+              <p>I understand that taking part in this study will require me to share a unique Booking ID from a past booking I made on Agoda and I provide permission to the research team to approach Agoda for the following server-side data for the Booking ID I provide, for Agoda to release that information to the research team and for it to be utilized for this study if Agoda consents:</p>
+              <ol>
+                <li>Number of clicks &mdash; any data to be extracted to understand number of clicks done when making the booking)</li>
+                <li>Task Duration &mdash; any time stamping and other data to be extracted to calculate time it took to complete booking</li>
+                <li>Task Deviation &mdash; any data to be extracted to calculate repetition of steps, change of choices, navigation within pages</li>
+              </ol>
+              <p>The Booking ID and, if required for matching, the email address associated with the booking may be used solely for this matching process. Identifying information will not appear in research outputs or publications.</p>
+              <br>
+              <h3>Use of Information in the Study</h3>
+              <p>I understand the data I provide (the questionnaire response below and the permitted extraction of server side data mentioned above) will be used for academic research purposes and possibly published in an academic journal. I understand that personal data collected about me that can identify me as e.g. my name or email address, will not be shared beyond the study team. Confidentiality will be protected in this manner and data will be stored securely on Google cloud and access restricted. If offline versions are extracted, all PII data will be anonymized /or pseudonyms will be used for confidentiality. Data will not be retained beyond a period of 5-years from completion of the study.</p>
+            </div>
+
+            <div class="question">
+              <label class="question-label">
+                Check all that apply <span class="required-star">*</span>
               </label>
+              <div class="option-group">
+                <label class="option-label">
+                  <input type="checkbox" name="Consent" value="Yes" required>
+                  <span>Yes, I consent to participate in this study</span>
+                </label>
+              </div>
             </div>
           </div>
+
+          <!-- STEP 2: SECTION A -->
+          <div class="step" data-step="2">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Section A
+            </div>
+            <div class="section-desc">Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 60 days using the Pay-Later option.</div>
+
+            <div class="question">
+              <label class="question-label">2. 10-digit Booking ID (for booking made on Agoda in past 60 days; this can be seen on the app or on booking voucher) <span class="required-star">*</span></label>
+              <input type="text" name="BookingID" id="bookingIdInput" placeholder="e.g. 1234567890" maxlength="10" pattern="\d{10}" inputmode="numeric" required>
+            </div>
+
+            <div class="question">
+              <label class="question-label">3. Your age? <span class="required-star">*</span></label>
+              <input type="number" name="Age" id="ageInput" placeholder="e.g. 28" min="1" max="120" required>
+              <div class="age-error" id="ageError">
+                &#9888; You must be at least 18 years old to participate in this study.
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">4. Gender? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Gender" value="Male" required><span>Male</span></label>
+                <label class="option-label"><input type="radio" name="Gender" value="Female"><span>Female</span></label>
+                <label class="option-label"><input type="radio" name="Gender" value="Non-binary"><span>Non-binary</span></label>
+                <label class="option-label"><input type="radio" name="Gender" value="Prefer not to say"><span>Prefer not to say</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">5. In the 12 months before this booking, how many times had you used a PayLater feature on any online platform? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" required><span>1 &mdash; Never</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="2 - 1-2 times"><span>2 &mdash; 1-2 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="3 - 3-5 times"><span>3 &mdash; 3-5 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="4 - 6-11 times"><span>4 &mdash; 6-11 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="5 - 12 times or more"><span>5 &mdash; 12 times or more</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">6. Purpose of booking? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Business" required><span>Business</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with family)"><span>Leisure (with family)</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with friends)"><span>Leisure (with friends)</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (alone)"><span>Leisure (alone)</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Booked for someone else"><span>Booked for someone else</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Other" data-show="other-purpose"><span>Other</span></label>
+              </div>
+              <div class="conditional-field" id="other-purpose">
+                <input type="text" name="PurposeOfBooking_OtherText" placeholder="Please specify">
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">7. Did you expect this trip to provide you with a future financial or professional benefit (e.g., income, business opportunities, or career-related benefits)? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">8. Did you experience any disadvantage, additional cost, or concern when using Pay-Later? If yes, please describe.</label>
+              <textarea name="DisadvantageOrCost" placeholder="Please share your experience..."></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 3: SECTION B -->
+          <div class="step" data-step="3">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Section B
+            </div>
+            <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
+
+            <div class="question">
+              <label class="question-label">9. I found Pay-Later useful for this booking. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="1" id="b1_1" required><label for="b1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="2" id="b1_2"><label for="b1_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="3" id="b1_3"><label for="b1_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="4" id="b1_4"><label for="b1_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="5" id="b1_5"><label for="b1_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="6" id="b1_6"><label for="b1_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="7" id="b1_7"><label for="b1_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">10. Using Pay-Later helped me complete the booking process more quickly. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="1" id="b2_1" required><label for="b2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="2" id="b2_2"><label for="b2_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="3" id="b2_3"><label for="b2_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="4" id="b2_4"><label for="b2_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="5" id="b2_5"><label for="b2_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="6" id="b2_6"><label for="b2_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="7" id="b2_7"><label for="b2_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">11. Using Pay-Later made the booking process more efficient for me. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="1" id="b3_1" required><label for="b3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="2" id="b3_2"><label for="b3_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="3" id="b3_3"><label for="b3_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="4" id="b3_4"><label for="b3_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="5" id="b3_5"><label for="b3_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="6" id="b3_6"><label for="b3_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="7" id="b3_7"><label for="b3_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 4: SECTION C -->
+          <div class="step" data-step="4">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Section C
+            </div>
+            <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
+
+            <div class="question">
+              <label class="question-label">12. Learning to use Pay-Later was easy for me. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="1" id="c1_1" required><label for="c1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="2" id="c1_2"><label for="c1_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="3" id="c1_3"><label for="c1_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="4" id="c1_4"><label for="c1_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="5" id="c1_5"><label for="c1_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="6" id="c1_6"><label for="c1_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="7" id="c1_7"><label for="c1_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">13. My interaction with Pay-Later was clear and understandable. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="1" id="c2_1" required><label for="c2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="2" id="c2_2"><label for="c2_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="3" id="c2_3"><label for="c2_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="4" id="c2_4"><label for="c2_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="5" id="c2_5"><label for="c2_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="6" id="c2_6"><label for="c2_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="7" id="c2_7"><label for="c2_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">14. I found Pay-Later easy to use. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="1" id="c3_1" required><label for="c3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="2" id="c3_2"><label for="c3_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="3" id="c3_3"><label for="c3_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="4" id="c3_4"><label for="c3_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="5" id="c3_5"><label for="c3_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="6" id="c3_6"><label for="c3_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="7" id="c3_7"><label for="c3_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">15. It was easy for me to become skilful at using Pay-Later. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="1" id="c4_1" required><label for="c4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="2" id="c4_2"><label for="c4_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="3" id="c4_3"><label for="c4_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="4" id="c4_4"><label for="c4_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="5" id="c4_5"><label for="c4_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="6" id="c4_6"><label for="c4_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="7" id="c4_7"><label for="c4_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 5: SECTION D -->
+          <div class="step" data-step="5">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              Section D
+            </div>
+            <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
+
+            <div class="question">
+              <label class="question-label">16. I had the resources necessary to use Pay-Later. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="1" id="d1_1" required><label for="d1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="2" id="d1_2"><label for="d1_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="3" id="d1_3"><label for="d1_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="4" id="d1_4"><label for="d1_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="5" id="d1_5"><label for="d1_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="6" id="d1_6"><label for="d1_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="7" id="d1_7"><label for="d1_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">17. I had the knowledge necessary to use Pay-Later. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="1" id="d2_1" required><label for="d2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="2" id="d2_2"><label for="d2_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="3" id="d2_3"><label for="d2_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="4" id="d2_4"><label for="d2_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="5" id="d2_5"><label for="d2_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="6" id="d2_6"><label for="d2_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="7" id="d2_7"><label for="d2_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">18. Pay-Later was compatible with the technologies and payment services I normally use. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="1" id="d3_1" required><label for="d3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="2" id="d3_2"><label for="d3_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="3" id="d3_3"><label for="d3_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="4" id="d3_4"><label for="d3_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="5" id="d3_5"><label for="d3_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="6" id="d3_6"><label for="d3_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="7" id="d3_7"><label for="d3_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">19. I could get help if I had difficulties using Pay-Later. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="D4_Help" value="1" id="d4_1" required><label for="d4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="2" id="d4_2"><label for="d4_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="3" id="d4_3"><label for="d4_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="4" id="d4_4"><label for="d4_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="5" id="d4_5"><label for="d4_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="6" id="d4_6"><label for="d4_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="7" id="d4_7"><label for="d4_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 6: SECTION E -->
+          <div class="step" data-step="6">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              Section E
+            </div>
+            <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
+
+            <div class="question">
+              <label class="question-label">20. Using Pay-Later provided me financial flexibility. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="1" id="e1_1" required><label for="e1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="2" id="e1_2"><label for="e1_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="3" id="e1_3"><label for="e1_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="4" id="e1_4"><label for="e1_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="5" id="e1_5"><label for="e1_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="6" id="e1_6"><label for="e1_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="7" id="e1_7"><label for="e1_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">21. Pay-Later helped me manage my cash flow better. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="1" id="e2_1" required><label for="e2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="2" id="e2_2"><label for="e2_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="3" id="e2_3"><label for="e2_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="4" id="e2_4"><label for="e2_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="5" id="e2_5"><label for="e2_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="6" id="e2_6"><label for="e2_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="7" id="e2_7"><label for="e2_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">22. Deferring payment was financially useful for me. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="1" id="e3_1" required><label for="e3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="2" id="e3_2"><label for="e3_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="3" id="e3_3"><label for="e3_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="4" id="e3_4"><label for="e3_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="5" id="e3_5"><label for="e3_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="6" id="e3_6"><label for="e3_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="7" id="e3_7"><label for="e3_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">23. Using Pay-Later helped me manage the timing of my travel expenses. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="1" id="e4_1" required><label for="e4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="2" id="e4_2"><label for="e4_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="3" id="e4_3"><label for="e4_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="4" id="e4_4"><label for="e4_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="5" id="e4_5"><label for="e4_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="6" id="e4_6"><label for="e4_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="7" id="e4_7"><label for="e4_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 7: SECTION F -->
+          <div class="step" data-step="7">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Section F
+            </div>
+            <div class="section-desc">Please indicate your level of agreement with the following statements about your willingness to use the Pay-Later option.</div>
+
+            <div class="question">
+              <label class="question-label">24. I intend to use Pay-Later for my future travel bookings. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="1" id="f1_1" required><label for="f1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="2" id="f1_2"><label for="f1_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="3" id="f1_3"><label for="f1_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="4" id="f1_4"><label for="f1_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="5" id="f1_5"><label for="f1_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="6" id="f1_6"><label for="f1_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="7" id="f1_7"><label for="f1_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">25. I will try to use PayLater for my future travel bookings. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="1" id="f2_1" required><label for="f2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="2" id="f2_2"><label for="f2_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="3" id="f2_3"><label for="f2_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="4" id="f2_4"><label for="f2_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="5" id="f2_5"><label for="f2_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="6" id="f2_6"><label for="f2_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="7" id="f2_7"><label for="f2_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">26. I plan to continue using PayLater for future travel bookings. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="1" id="f3_1" required><label for="f3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="2" id="f3_2"><label for="f3_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="3" id="f3_3"><label for="f3_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="4" id="f3_4"><label for="f3_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="5" id="f3_5"><label for="f3_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="6" id="f3_6"><label for="f3_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="7" id="f3_7"><label for="f3_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">27. I am willing to try Pay-Later for my next travel booking. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="1" id="f4_1" required><label for="f4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="2" id="f4_2"><label for="f4_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="3" id="f4_3"><label for="f4_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="4" id="f4_4"><label for="f4_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="5" id="f4_5"><label for="f4_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="6" id="f4_6"><label for="f4_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="7" id="f4_7"><label for="f4_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 8: CLOSING -->
+          <div class="step" data-step="8">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Closing Questions
+            </div>
+            <div class="section-desc">Thank you for your participation! A few final details.</div>
+
+            <div class="question">
+              <label class="question-label">28. Email Address associated with booking (this information is requested to ensure the Booking ID provided is traceable to the responder)</label>
+              <input type="email" name="Email" placeholder="you@example.com">
+            </div>
+
+            <div class="question">
+              <label class="question-label">29. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">30. Do you have any questions, comments or suggestions for us?</label>
+              <textarea name="Comments" placeholder="Your feedback is welcome..."></textarea>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button type="button" class="btn btn-prev" id="prevBtn" onclick="changeStep(-1)">&#8592; Previous</button>
+            <button type="button" class="btn btn-next" id="nextBtn" onclick="changeStep(1)">Next &#8594;</button>
+            <button type="submit" class="btn btn-submit" id="submitBtn" style="display:none;">Submit Survey</button>
+          </div>
+
+          <div class="status-msg" id="statusMsg"></div>
+        </form>
+
+        <div class="thank-you" id="thankYou">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <h2>Thank You!</h2>
+          <p>Your responses have been recorded successfully.<br>We appreciate your participation in this research.</p>
         </div>
-
-        <!-- ==================== STEP 2: ABOUT YOU ==================== -->
-        <div class="step" data-step="2">
-          <div class="section-title">Section A — About You</div>
-          <div class="section-desc">Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 60 days using the Pay-Later option.</div>
-
-          <div class="question">
-            <label class="question-label">2. 10-digit Booking ID (for booking made on Agoda in past 60 days) <span class="required-star">*</span></label>
-            <input type="text" name="BookingID" placeholder="e.g. 1234567890" pattern="\d{10}" required>
-          </div>
-
-          <div class="question">
-            <label class="question-label">3. Name <span class="required-star">*</span></label>
-            <input type="text" name="Name" placeholder="Your full name" required>
-          </div>
-
-          <div class="question">
-            <label class="question-label">4. A1: Your age? <span class="required-star">*</span></label>
-            <input type="number" name="Age" placeholder="e.g. 28" min="18" max="100" required>
-          </div>
-
-          <div class="question">
-            <label class="question-label">5. A2: Gender? <span class="required-star">*</span></label>
-            <div class="option-group">
-              <label class="option-label"><input type="radio" name="Gender" value="Male" required><span>Male</span></label>
-              <label class="option-label"><input type="radio" name="Gender" value="Female"><span>Female</span></label>
-              <label class="option-label"><input type="radio" name="Gender" value="Non-binary"><span>Non-binary</span></label>
-              <label class="option-label"><input type="radio" name="Gender" value="Prefer not to say"><span>Prefer not to say</span></label>
-            </div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">6. A3: Before this booking, how frequently have you used Pay Later feature on any online platform? <span class="required-star">*</span></label>
-            <div class="option-group">
-              <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" required><span>1 — Never</span></label>
-              <label class="option-label"><input type="radio" name="PayLaterFrequency" value="2 - 1-2 times"><span>2 — 1-2 times</span></label>
-              <label class="option-label"><input type="radio" name="PayLaterFrequency" value="3 - 3-4 times"><span>3 — 3-4 times</span></label>
-              <label class="option-label"><input type="radio" name="PayLaterFrequency" value="4 - Several times a year"><span>4 — Several times a year</span></label>
-              <label class="option-label"><input type="radio" name="PayLaterFrequency" value="5 - Every month or more"><span>5 — Every month or more</span></label>
-            </div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">7. A4: Purpose of booking? <span class="required-star">*</span></label>
-            <div class="option-group">
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Business" required><span>Business</span></label>
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with family)"><span>Leisure (with family)</span></label>
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with friends)"><span>Leisure (with friends)</span></label>
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (alone)"><span>Leisure (alone)</span></label>
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Booked for someone else"><span>Booked for someone else</span></label>
-              <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Other" data-show="other-purpose"><span>Other</span></label>
-            </div>
-            <div class="conditional-field" id="other-purpose">
-              <input type="text" name="PurposeOfBooking_OtherText" placeholder="Please specify">
-            </div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">8. A5: Do you expect this travel to provide future economic benefit to you? <span class="required-star">*</span></label>
-            <div class="option-group">
-              <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Yes" required><span>Yes</span></label>
-              <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="No"><span>No</span></label>
-            </div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">9. A6: Did you notice any disadvantage or cost from using Pay Later feature? Please elaborate. <span class="required-star">*</span></label>
-            <textarea name="DisadvantageOrCost" placeholder="Please share your experience..." required></textarea>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 3: PERFORMANCE EXPECTANCY ==================== -->
-        <div class="step" data-step="3">
-          <div class="section-title">Section B — Performance Expectancy</div>
-          <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
-
-          <div class="question">
-            <label class="question-label">10. B1: I found Pay-Later useful feature for this booking. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="1" id="b1_1" required><label for="b1_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="2" id="b1_2"><label for="b1_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="3" id="b1_3"><label for="b1_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="4" id="b1_4"><label for="b1_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="5" id="b1_5"><label for="b1_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="6" id="b1_6"><label for="b1_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="B1_Useful" value="7" id="b1_7"><label for="b1_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">11. B2: Using Pay-Later helped me complete the booking process more quickly. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="1" id="b2_1" required><label for="b2_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="2" id="b2_2"><label for="b2_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="3" id="b2_3"><label for="b2_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="4" id="b2_4"><label for="b2_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="5" id="b2_5"><label for="b2_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="6" id="b2_6"><label for="b2_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="B2_Quickly" value="7" id="b2_7"><label for="b2_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">12. B3: Using Pay-Later made the booking process more efficient for me. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="1" id="b3_1" required><label for="b3_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="2" id="b3_2"><label for="b3_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="3" id="b3_3"><label for="b3_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="4" id="b3_4"><label for="b3_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="5" id="b3_5"><label for="b3_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="6" id="b3_6"><label for="b3_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="B3_Efficient" value="7" id="b3_7"><label for="b3_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 4: EFFORT EXPECTANCY ==================== -->
-        <div class="step" data-step="4">
-          <div class="section-title">Section C — Effort Expectancy</div>
-          <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
-
-          <div class="question">
-            <label class="question-label">13. C1: Learning to use Pay-Later was easy for me. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="1" id="c1_1" required><label for="c1_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="2" id="c1_2"><label for="c1_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="3" id="c1_3"><label for="c1_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="4" id="c1_4"><label for="c1_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="5" id="c1_5"><label for="c1_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="6" id="c1_6"><label for="c1_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="7" id="c1_7"><label for="c1_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">14. C2: My interaction with Pay-Later was clear and understandable. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="1" id="c2_1" required><label for="c2_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="2" id="c2_2"><label for="c2_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="3" id="c2_3"><label for="c2_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="4" id="c2_4"><label for="c2_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="5" id="c2_5"><label for="c2_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="6" id="c2_6"><label for="c2_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="C2_Clear" value="7" id="c2_7"><label for="c2_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">15. C3: I found Pay Later easy to use. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="1" id="c3_1" required><label for="c3_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="2" id="c3_2"><label for="c3_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="3" id="c3_3"><label for="c3_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="4" id="c3_4"><label for="c3_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="5" id="c3_5"><label for="c3_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="6" id="c3_6"><label for="c3_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="7" id="c3_7"><label for="c3_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">16. C4: It was easy for me to become skilful at using Pay-Later. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="1" id="c4_1" required><label for="c4_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="2" id="c4_2"><label for="c4_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="3" id="c4_3"><label for="c4_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="4" id="c4_4"><label for="c4_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="5" id="c4_5"><label for="c4_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="6" id="c4_6"><label for="c4_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="C4_Skilful" value="7" id="c4_7"><label for="c4_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 5: FACILITATING CONDITIONS ==================== -->
-        <div class="step" data-step="5">
-          <div class="section-title">Section D — Facilitating Conditions</div>
-          <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
-
-          <div class="question">
-            <label class="question-label">17. D1: I had the resources necessary to use Pay-Later. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="1" id="d1_1" required><label for="d1_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="2" id="d1_2"><label for="d1_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="3" id="d1_3"><label for="d1_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="4" id="d1_4"><label for="d1_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="5" id="d1_5"><label for="d1_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="6" id="d1_6"><label for="d1_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="D1_Resources" value="7" id="d1_7"><label for="d1_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">18. D2: I had the knowledge necessary to use Pay-Later. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="1" id="d2_1" required><label for="d2_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="2" id="d2_2"><label for="d2_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="3" id="d2_3"><label for="d2_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="4" id="d2_4"><label for="d2_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="5" id="d2_5"><label for="d2_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="6" id="d2_6"><label for="d2_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="D2_Knowledge" value="7" id="d2_7"><label for="d2_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">19. D3: Pay-Later was compatible with the technologies and payment services I normally use. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="1" id="d3_1" required><label for="d3_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="2" id="d3_2"><label for="d3_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="3" id="d3_3"><label for="d3_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="4" id="d3_4"><label for="d3_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="5" id="d3_5"><label for="d3_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="6" id="d3_6"><label for="d3_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="D3_Compatible" value="7" id="d3_7"><label for="d3_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">20. D4: I could get help if I had difficulties using Pay-Later. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="D4_Help" value="1" id="d4_1" required><label for="d4_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="2" id="d4_2"><label for="d4_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="3" id="d4_3"><label for="d4_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="4" id="d4_4"><label for="d4_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="5" id="d4_5"><label for="d4_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="6" id="d4_6"><label for="d4_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="D4_Help" value="7" id="d4_7"><label for="d4_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 6: PERCEIVED FINANCIAL FLEXIBILITY ==================== -->
-        <div class="step" data-step="6">
-          <div class="section-title">Section E — Perceived Financial Flexibility</div>
-          <div class="section-desc">Please indicate your level of agreement with the following statements about the Pay-Later option you used during your booking.</div>
-
-          <div class="question">
-            <label class="question-label">21. E1: Using Pay-Later provided me financial flexibility. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="1" id="e1_1" required><label for="e1_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="2" id="e1_2"><label for="e1_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="3" id="e1_3"><label for="e1_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="4" id="e1_4"><label for="e1_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="5" id="e1_5"><label for="e1_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="6" id="e1_6"><label for="e1_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="7" id="e1_7"><label for="e1_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">22. E2: Pay-Later helped me manage my cash flow better. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="1" id="e2_1" required><label for="e2_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="2" id="e2_2"><label for="e2_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="3" id="e2_3"><label for="e2_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="4" id="e2_4"><label for="e2_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="5" id="e2_5"><label for="e2_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="6" id="e2_6"><label for="e2_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="E2_CashFlow" value="7" id="e2_7"><label for="e2_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">23. E3: Deferring payment was financially useful for me. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="1" id="e3_1" required><label for="e3_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="2" id="e3_2"><label for="e3_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="3" id="e3_3"><label for="e3_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="4" id="e3_4"><label for="e3_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="5" id="e3_5"><label for="e3_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="6" id="e3_6"><label for="e3_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="7" id="e3_7"><label for="e3_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">24. E4: Using Pay-Later helped me manage the timing of my travel expenses. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="1" id="e4_1" required><label for="e4_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="2" id="e4_2"><label for="e4_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="3" id="e4_3"><label for="e4_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="4" id="e4_4"><label for="e4_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="5" id="e4_5"><label for="e4_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="6" id="e4_6"><label for="e4_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="7" id="e4_7"><label for="e4_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 7: BEHAVIORAL WILLINGNESS ==================== -->
-        <div class="step" data-step="7">
-          <div class="section-title">Section F — Behavioral Willingness to Adopt</div>
-          <div class="section-desc">Please indicate your level of agreement with the following statements about your willingness to use the Pay-Later option.</div>
-
-          <div class="question">
-            <label class="question-label">25. F1: I intend to use Pay-Later for my future travel bookings. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="1" id="f1_1" required><label for="f1_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="2" id="f1_2"><label for="f1_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="3" id="f1_3"><label for="f1_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="4" id="f1_4"><label for="f1_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="5" id="f1_5"><label for="f1_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="6" id="f1_6"><label for="f1_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="F1_Intend" value="7" id="f1_7"><label for="f1_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">26. F2: I will try to use PayLater for my future travel bookings. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="1" id="f2_1" required><label for="f2_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="2" id="f2_2"><label for="f2_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="3" id="f2_3"><label for="f2_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="4" id="f2_4"><label for="f2_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="5" id="f2_5"><label for="f2_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="6" id="f2_6"><label for="f2_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="F2_WillTry" value="7" id="f2_7"><label for="f2_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">27. F3: I plan to continue using PayLater for future travel bookings. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="1" id="f3_1" required><label for="f3_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="2" id="f3_2"><label for="f3_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="3" id="f3_3"><label for="f3_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="4" id="f3_4"><label for="f3_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="5" id="f3_5"><label for="f3_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="6" id="f3_6"><label for="f3_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="F3_Continue" value="7" id="f3_7"><label for="f3_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">28. F4: I am willing to try Pay-Later for my next travel booking. <span class="required-star">*</span></label>
-            <div class="likert-container">
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="1" id="f4_1" required><label for="f4_1" class="likert-box">1</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="2" id="f4_2"><label for="f4_2" class="likert-box">2</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="3" id="f4_3"><label for="f4_3" class="likert-box">3</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="4" id="f4_4"><label for="f4_4" class="likert-box">4</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="5" id="f4_5"><label for="f4_5" class="likert-box">5</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="6" id="f4_6"><label for="f4_6" class="likert-box">6</label></div>
-              <div class="likert-option"><input type="radio" name="F4_Willing" value="7" id="f4_7"><label for="f4_7" class="likert-box">7</label></div>
-            </div>
-            <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
-          </div>
-        </div>
-
-        <!-- ==================== STEP 8: CLOSING ==================== -->
-        <div class="step" data-step="8">
-          <div class="section-title">Closing Questions</div>
-          <div class="section-desc">Thank you for your participation! A few final details.</div>
-
-          <div class="question">
-            <label class="question-label">29. Email Address associated with booking (this information is requested to ensure the Booking ID provided is traceable to the responder)</label>
-            <input type="email" name="Email" placeholder="you@example.com">
-          </div>
-
-          <div class="question">
-            <label class="question-label">30. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span></label>
-            <div class="option-group">
-              <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
-              <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
-            </div>
-          </div>
-
-          <div class="question">
-            <label class="question-label">31. Do you have any questions, comments or suggestions for us?</label>
-            <textarea name="Comments" placeholder="Your feedback is welcome..."></textarea>
-          </div>
-        </div>
-
-        <!-- Navigation -->
-        <div class="nav-buttons">
-          <button type="button" class="btn btn-prev" id="prevBtn" onclick="changeStep(-1)">← Previous</button>
-          <button type="button" class="btn btn-next" id="nextBtn" onclick="changeStep(1)">Next →</button>
-          <button type="submit" class="btn btn-submit" id="submitBtn" style="display:none;">Submit Survey</button>
-        </div>
-
-        <div class="status-msg" id="statusMsg"></div>
-      </form>
-
-      <!-- Thank You Screen -->
-      <div class="thank-you" id="thankYou">
-        <h2>Thank You!</h2>
-        <p>Your responses have been recorded successfully.<br>We appreciate your participation in this research.</p>
       </div>
     </div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h20"/>
+            <path d="M13 2l9 10-9 10"/>
+            <path d="M13 2v20"/>
+          </svg>
+          <h3>Your Journey</h3>
+          <p>Track your progress</p>
+        </div>
+
+        <div class="tracker">
+          <div class="tracker-line"></div>
+          <div class="tracker-line-fill" id="trackerLineFill"></div>
+
+          <div class="tracker-step" data-tracker="1">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="tracker-text">Consent</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="2">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="tracker-text">Section A</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="3">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div class="tracker-text">Section B</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="4">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
+            <div class="tracker-text">Section C</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="5">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="tracker-text">Section D</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="6">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div class="tracker-text">Section E</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="7">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="tracker-text">Section F</div>
+          </div>
+
+          <div class="tracker-step" data-tracker="8">
+            <div class="tracker-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="tracker-text">Closing</div>
+          </div>
+        </div>
+
+        <div class="progress-stats">
+          <div class="progress-percent" id="progressPercent">0%</div>
+          <div class="progress-label">Completed</div>
+          <div class="progress-message" id="progressMessage">Welcome aboard! Let's begin your journey.</div>
+        </div>
+      </div>
+    </aside>
   </div>
 
   <script>
-    // ============================================
-    // CONFIGURATION
-    // ============================================
-    // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_b6WOfW3CesPwzlSukWJjJFmzOMM2pUa9CwAQpQmIdHBeNknX2Y4vR80y2EaGiS7_aA/exec";
 
     const totalSteps = 8;
@@ -865,45 +1206,57 @@
 
     const stepTitles = [
       "Consent Form",
-      "About You",
-      "Performance Expectancy",
-      "Effort Expectancy",
-      "Facilitating Conditions",
-      "Perceived Financial Flexibility",
-      "Behavioral Willingness to Adopt",
+      "Section A",
+      "Section B",
+      "Section C",
+      "Section D",
+      "Section E",
+      "Section F",
       "Closing Questions"
     ];
 
-    // ============================================
-    // PROGRESS BAR
-    // ============================================
+    const progressMessages = [
+      "Welcome aboard! Let's begin your journey.",
+      "Great start! Now tell us about yourself.",
+      "Sharing your experience... keep going!",
+      "You're doing great! Almost halfway there.",
+      "Halfway there! Stay with us.",
+      "Almost there! Just a few more questions.",
+      "So close! Final stretch ahead.",
+      "Last step! Thank you for your time."
+    ];
+
     function updateProgress() {
-      const pct = ((currentStep - 1) / totalSteps) * 100;
-      document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('progressLabel').textContent =
+      const pct = Math.round(((currentStep - 1) / totalSteps) * 100);
+      document.getElementById('topProgressFill').style.width = pct + '%';
+      document.getElementById('stepLabel').textContent =
         `Step ${currentStep} of ${totalSteps}: ${stepTitles[currentStep - 1]}`;
+      document.getElementById('progressPercent').textContent = pct + '%';
+      document.getElementById('progressMessage').textContent = progressMessages[currentStep - 1];
+      document.getElementById('trackerLineFill').style.height = pct + '%';
+
+      document.querySelectorAll('.tracker-step').forEach((step, idx) => {
+        const stepNum = idx + 1;
+        step.classList.remove('active', 'completed');
+        if (stepNum < currentStep) {
+          step.classList.add('completed');
+        } else if (stepNum === currentStep) {
+          step.classList.add('active');
+        }
+      });
     }
 
-    // ============================================
-    // SHOW/HIDE STEPS
-    // ============================================
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
-
-      // Button visibility
       document.getElementById('prevBtn').style.display = n === 1 ? 'none' : 'inline-block';
       document.getElementById('nextBtn').style.display = n === totalSteps ? 'none' : 'inline-block';
       document.getElementById('submitBtn').style.display = n === totalSteps ? 'inline-block' : 'none';
-
       currentStep = n;
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ============================================
-    // VALIDATION BEFORE MOVING FORWARD
-    // ============================================
     function validateCurrentStep() {
       const currentStepEl = document.querySelector('.step.active');
       const requiredFields = currentStepEl.querySelectorAll('[required]');
@@ -912,8 +1265,9 @@
         if (field.type === 'checkbox') {
           if (!field.checked) {
             field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            field.parentElement.classList.add('selected');
             field.parentElement.style.borderColor = '#e94560';
-            setTimeout(() => field.parentElement.style.borderColor = '', 2000);
+            setTimeout(() => { field.parentElement.style.borderColor = ''; field.parentElement.classList.remove('selected'); }, 2000);
             return false;
           }
         } else if (field.type === 'radio') {
@@ -927,8 +1281,8 @@
         } else {
           if (!field.value.trim()) {
             field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            field.style.borderColor = '#e94560';
-            setTimeout(() => field.style.borderColor = '', 2000);
+            field.classList.add('error');
+            setTimeout(() => field.classList.remove('error'), 2000);
             return false;
           }
         }
@@ -938,13 +1292,33 @@
 
     function changeStep(direction) {
       if (direction === 1 && !validateCurrentStep()) return;
+
+      if (currentStep === 2 && direction === 1) {
+        const ageInput = document.getElementById('ageInput');
+        const ageError = document.getElementById('ageError');
+        if (ageInput && ageInput.value) {
+          const age = parseInt(ageInput.value);
+          if (age < 18) {
+            ageError.classList.add('visible');
+            ageInput.classList.add('error');
+            ageInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+              ageError.classList.remove('visible');
+              ageInput.classList.remove('error');
+            }, 4000);
+            return;
+          }
+        }
+      }
+
       const newStep = currentStep + direction;
       if (newStep >= 1 && newStep <= totalSteps) showStep(newStep);
     }
 
-    // ============================================
-    // CONDITIONAL LOGIC (Other text field)
-    // ============================================
+    document.getElementById('bookingIdInput').addEventListener('input', function(e) {
+      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
+
     document.querySelectorAll('input[data-show]').forEach(input => {
       input.addEventListener('change', function() {
         const targetId = this.getAttribute('data-show');
@@ -956,7 +1330,6 @@
       });
     });
 
-    // Also hide conditional when other options selected
     document.querySelectorAll('input[name="PurposeOfBooking"]').forEach(radio => {
       radio.addEventListener('change', function() {
         const otherField = document.getElementById('other-purpose');
@@ -964,24 +1337,20 @@
       });
     });
 
-    // ============================================
-    // RADIO BUTTON VISUAL SELECTION
-    // ============================================
     document.querySelectorAll('.option-group').forEach(group => {
       group.addEventListener('change', function(e) {
         if (e.target.type === 'radio') {
           group.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
           e.target.closest('.option-label').classList.add('selected');
         }
+        if (e.target.type === 'checkbox') {
+          e.target.closest('.option-label').classList.toggle('selected', e.target.checked);
+        }
       });
     });
 
-    // ============================================
-    // FORM SUBMISSION
-    // ============================================
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-
       if (!validateCurrentStep()) return;
 
       const submitBtn = document.getElementById('submitBtn');
@@ -992,13 +1361,9 @@
       statusMsg.className = 'status-msg loading';
       statusMsg.textContent = 'Sending your responses... Please wait.';
 
-      // Collect all form data
       const formData = new FormData(this);
       const payload = {};
-      formData.forEach((value, key) => {
-        // If multiple values for same key, keep last (radio behavior)
-        payload[key] = value;
-      });
+      formData.forEach((value, key) => payload[key] = value);
 
       try {
         await fetch(GOOGLE_SCRIPT_URL, {
@@ -1008,27 +1373,29 @@
           body: JSON.stringify(payload)
         });
 
-        // With no-cors we can't read response, but request was sent
         statusMsg.className = 'status-msg success';
-        statusMsg.innerHTML = '✅ Submitted successfully! Thank you for your participation.';
+        statusMsg.innerHTML = '&#10004; Submitted successfully! Thank you.';
 
         setTimeout(() => {
           document.getElementById('surveyForm').style.display = 'none';
           document.querySelector('.nav-buttons').style.display = 'none';
           document.getElementById('thankYou').classList.add('active');
-          document.getElementById('progressLabel').textContent = 'Survey Complete';
-          document.getElementById('progressFill').style.width = '100%';
+          document.getElementById('stepLabel').textContent = 'Survey Complete';
+          document.getElementById('topProgressFill').style.width = '100%';
+          document.getElementById('progressPercent').textContent = '100%';
+          document.getElementById('progressMessage').textContent = 'Thank you for completing the survey!';
+          document.querySelectorAll('.tracker-step').forEach(s => s.classList.add('completed'));
+          document.getElementById('trackerLineFill').style.height = '100%';
         }, 1500);
 
       } catch (err) {
         statusMsg.className = 'status-msg error';
-        statusMsg.textContent = '❌ Error: ' + err.message;
+        statusMsg.textContent = '&#10008; Error: ' + err.message;
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Survey';
       }
     });
 
-    // Initialize
     showStep(1);
   </script>
 </body>
