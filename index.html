@@ -76,7 +76,7 @@
     }
 
     .survey-header h1 {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 8px;
       line-height: 1.3;
@@ -87,7 +87,14 @@
       opacity: 0.85;
       line-height: 1.5;
       max-width: 500px;
-      margin: 0 auto;
+      margin: 0 auto 8px;
+    }
+
+    .contact-line {
+      font-size: 12px;
+      opacity: 0.75;
+      margin-top: 8px;
+      font-style: italic;
     }
 
     .top-progress {
@@ -636,6 +643,7 @@
         </svg>
         <h1>Usability Experience Study</h1>
         <p>Asian Institute of Technology &mdash; Exploring the relationship between usability metrics, consumer perceptions, and behavioral willingness to adopt.</p>
+        <p class="contact-line">For questions about this study, please contact the research team at st122430@ait.asia</p>
       </div>
 
       <div class="top-progress">
@@ -663,18 +671,18 @@
 
             <div class="consent-box">
               <h3>Taking Part in the Study</h3>
-              <p>I have read and understood the study information. I have had the opportunity to contact the research team with any questions about the study. My participation is voluntary. I may refuse to answer any question and may stop the survey at any time before submitting my response. After my data have been de-identified and incorporated into the research dataset, it may no longer be possible to identify and remove my individual response. I understand that the researchers conducting this study may be employed by Agoda. My participation is voluntary and will not affect my Agoda account or relationship with Agoda.</p>
+              <p>I have read and understood the study information. I have had the opportunity to contact the research team with any questions about the study. My participation is voluntary. I may stop the survey at any time before submitting my response without giving a reason. After my data have been de-identified and incorporated into the research dataset, it may no longer be possible to identify and remove my individual response. I understand that the researchers conducting this study may be employed by Agoda. My participation is voluntary and will not affect my Agoda account or relationship with Agoda.</p>
               <br>
               <p>I understand that taking part in this study will require me to share a unique Booking ID from a past booking I made on Agoda and I provide permission to the research team to approach Agoda for the following server-side data for the Booking ID I provide, for Agoda to release that information to the research team and for it to be utilized for this study if Agoda consents:</p>
               <ol>
-                <li>Number of clicks &mdash; any data to be extracted to understand number of clicks done when making the booking)</li>
-                <li>Task Duration &mdash; any time stamping and other data to be extracted to calculate time it took to complete booking</li>
-                <li>Task Deviation &mdash; any data to be extracted to calculate repetition of steps, change of choices, navigation within pages</li>
+                <li>Number of clicks &mdash; data used to determine the number of clicks made during the booking process.</li>
+                <li>Task duration &mdash; timestamp data used to calculate the time taken to complete the booking process.</li>
+                <li>Task deviation &mdash; data used to identify repeated steps, changes in selections, backtracking, or other navigation during the booking process and whether Pay-Later and non-Pay-Later options were both visible in the session.</li>
               </ol>
               <p>The Booking ID and, if required for matching, the email address associated with the booking may be used solely for this matching process. Identifying information will not appear in research outputs or publications.</p>
               <br>
               <h3>Use of Information in the Study</h3>
-              <p>I understand the data I provide (the questionnaire response below and the permitted extraction of server side data mentioned above) will be used for academic research purposes and possibly published in an academic journal. I understand that personal data collected about me that can identify me as e.g. my name or email address, will not be shared beyond the study team. Confidentiality will be protected in this manner and data will be stored securely on Google cloud and access restricted. If offline versions are extracted, all PII data will be anonymized /or pseudonyms will be used for confidentiality. Data will not be retained beyond a period of 5-years from completion of the study.</p>
+              <p>I understand the data I provide (the questionnaire response below and the permitted extraction of server side data mentioned above) will be used for academic research purposes and possibly published in an academic journal. I understand that personal data collected about me that can identify me will not be shared beyond the study team. Confidentiality will be protected in this manner and data will be stored securely on Google cloud and access restricted. If offline versions are extracted, datasets used for analysis will be de-identified or pseudonymized for confidentiality. Data will not be retained beyond a period of 5-years from completion of the study.</p>
             </div>
 
             <div class="question">
@@ -722,13 +730,13 @@
             </div>
 
             <div class="question">
-              <label class="question-label">5. In the 12 months before this booking, how many times had you used a PayLater feature on any online platform? <span class="required-star">*</span></label>
+              <label class="question-label">5. In the 12 months before this booking, how many times had you used a Pay-Later feature on any online platform? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" required><span>1 &mdash; Never</span></label>
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="2 - 1-2 times"><span>2 &mdash; 1-2 times</span></label>
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="3 - 3-5 times"><span>3 &mdash; 3-5 times</span></label>
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="4 - 6-11 times"><span>4 &mdash; 6-11 times</span></label>
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="5 - 12 times or more"><span>5 &mdash; 12 times or more</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" required><span>Never</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="2 - 1-2 times"><span>1-2 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="3 - 3-5 times"><span>3-5 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="4 - 6-11 times"><span>6-11 times</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="5 - 12 times or more"><span>12 times or more</span></label>
               </div>
             </div>
 
@@ -739,6 +747,7 @@
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with family)"><span>Leisure (with family)</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with friends)"><span>Leisure (with friends)</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (alone)"><span>Leisure (alone)</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Mixed Business and Leisure"><span>Mixed Business and Leisure</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Booked for someone else"><span>Booked for someone else</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Other" data-show="other-purpose"><span>Other</span></label>
               </div>
@@ -752,6 +761,7 @@
               <div class="option-group">
                 <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Yes" required><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="No"><span>No</span></label>
+                <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Not Applicable"><span>Not Applicable</span></label>
               </div>
             </div>
 
@@ -1030,7 +1040,7 @@
             </div>
 
             <div class="question">
-              <label class="question-label">25. I will try to use PayLater for my future travel bookings. <span class="required-star">*</span></label>
+              <label class="question-label">25. I will try to use Pay-Later for my future travel bookings. <span class="required-star">*</span></label>
               <div class="likert-container">
                 <div class="likert-option"><input type="radio" name="F2_WillTry" value="1" id="f2_1" required><label for="f2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F2_WillTry" value="2" id="f2_2"><label for="f2_2" class="likert-box">2</label></div>
@@ -1044,7 +1054,7 @@
             </div>
 
             <div class="question">
-              <label class="question-label">26. I plan to continue using PayLater for future travel bookings. <span class="required-star">*</span></label>
+              <label class="question-label">26. I plan to continue using Pay-Later for future travel bookings. <span class="required-star">*</span></label>
               <div class="likert-container">
                 <div class="likert-option"><input type="radio" name="F3_Continue" value="1" id="f3_1" required><label for="f3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F3_Continue" value="2" id="f3_2"><label for="f3_2" class="likert-box">2</label></div>
@@ -1058,7 +1068,7 @@
             </div>
 
             <div class="question">
-              <label class="question-label">27. I am willing to try Pay-Later for my next travel booking. <span class="required-star">*</span></label>
+              <label class="question-label">27. I would be willing to use Pay-Later for my next travel booking. <span class="required-star">*</span></label>
               <div class="likert-container">
                 <div class="likert-option"><input type="radio" name="F4_Willing" value="1" id="f4_1" required><label for="f4_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F4_Willing" value="2" id="f4_2"><label for="f4_2" class="likert-box">2</label></div>
@@ -1081,7 +1091,7 @@
             <div class="section-desc">Thank you for your participation! A few final details.</div>
 
             <div class="question">
-              <label class="question-label">28. Email Address associated with booking (this information is requested to ensure the Booking ID provided is traceable to the responder)</label>
+              <label class="question-label">28. Email address associated with this Agoda booking (used only to verify and match the Booking ID with Agoda records).</label>
               <input type="email" name="Email" placeholder="you@example.com">
             </div>
 
