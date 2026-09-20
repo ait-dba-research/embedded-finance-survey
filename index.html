@@ -628,7 +628,39 @@
       .btn { padding: 12px; }
       .consent-box { padding: 16px; font-size: 12.5px; }
     }
+
+    .disqualify-screen {
+      display: none;
+      text-align: center;
+      padding: 50px 30px;
+    }
+    .disqualify-screen.active { display: block; }
+    .disqualify-screen h2 { color: var(--accent); margin-bottom: 14px; }
+    .disqualify-screen p { color: var(--text-light); max-width: 520px; margin: 0 auto; }
+    .consent-box h4 { margin: 14px 0 6px; font-size: 13.5px; color: var(--primary); }
+    .pdf-download-btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 26px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .pdf-download-btn:hover { background: var(--primary-light); }
+    .signature-line {
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 14px;
+      background: #fafbfd;
+    }
   </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -654,47 +686,83 @@
       <div class="form-body" id="formBody">
         <form id="surveyForm">
 
-          <!-- STEP 1: CONSENT -->
+          <!-- STEP 1: ELIGIBILITY & CONSENT -->
           <div class="step active" data-step="1">
             <div class="section-title">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              1. Consent Form
+              1. Participant Information &amp; Informed Consent
             </div>
 
             <div class="section-desc">
-              <strong>Details of Study:</strong> This academic research project at the Asian Institute of Technology on Embedded Finance is aimed at exploring the relationship between usability metrics (clicks, task duration, task deviation), consumer perceptions and perceived financial flexibility.
-              <br><br>
-              <strong>Instructions:</strong> Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 60 days using the Pay-Later option.
+              <strong>Doctoral Academic Research Study:</strong> Exploring the relationship between usability metrics, consumer perceptions and perceived financial benefits. Researcher: Jibran Bugvi, Doctoral Candidate, Asian Institute of Technology (AIT). Contact: st122430@ait.asia
               <br><br>
               <span style="color: var(--accent);">*</span> Indicates required question.
             </div>
 
+            <!-- VERBATIM CONSENT TEXT (per Agoda Data Sharing Agreement, Schedule 1 — do not modify) -->
             <div class="consent-box">
-              <h3>Taking Part in the Study</h3>
-              <p>I have read and understood the study information. I have had the opportunity to contact the research team with any questions about the study. My participation is voluntary. I may stop the survey at any time before submitting my response without giving a reason. After my data have been de-identified and incorporated into the research dataset, it may no longer be possible to identify and remove my individual response. I understand that the researchers conducting this study may be employed by Agoda. My participation is voluntary and will not affect my Agoda account or relationship with Agoda.</p>
-              <br>
-              <p>I understand that taking part in this study will require me to share a unique Booking ID from a past booking I made on Agoda and I provide permission to the research team to approach Agoda for the following server-side data for the Booking ID I provide, for Agoda to release that information to the research team and for it to be utilized for this study if Agoda consents:</p>
+              <h3>Participant Information Sheet &amp; Informed Consent Form</h3>
+
+              <h4>1. Nature and Independence of the Study</h4>
+              <p>You are invited to take part in an independent academic research study conducted by Jibran Bugvi, a doctoral candidate at the Asian Institute of Technology (AIT). This study seeks to explore the relationship between usability metrics, consumer perceptions and perceived financial benefits through the lens of Agoda&rsquo;s Pay-Later feature, where customers make a travel booking but pay for the purchase at a later date rather than at the time of the booking.</p>
+              <p><strong>Instructions:</strong> Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 90 days using the Pay-Later option only.</p>
+              <p style="margin-top:8px;"><strong>IMPORTANT NOTICE REGARDING AGODA:</strong> THIS STUDY IS AN ENTIRELY INDEPENDENT ENDEAVOUR OF THE RESEARCHER AND IS NOT COMMISSIONED, SPONSORED, OPERATED, FUNDED, AFFILIATED OR ENDORSED BY AGODA COMPANY PTE. LTD., ITS SUBSIDIARIES, AFFILIATES, HEIRS, ASSIGNS, REPRESENTATIVES, DIRECTORS, EMPLOYEES OR AGENTS (&quot;AGODA&quot;) IN ANY WAY. While the Researcher is employed by Agoda, this academic project is conducted strictly in his personal capacity as a doctoral student. Your participation is completely voluntary and will have NO IMPACT on your Agoda account, customer status, bookings, loyalty benefits, or relationship with Agoda.</p>
+
+              <h4>2. Eligibility Criteria &amp; Geographic Residency Confirmation</h4>
+              <p>Participation is strictly limited to individuals who meet ALL of the following criteria: you are at least twenty-one (21) years of age; you currently reside in Thailand or another Southeast Asian (ASEAN) nation; and you personally completed a past accommodation booking on Agoda in the last 90 days using the Pay-Later option.</p>
+              <p style="margin-top:6px;"><strong>GEOGRAPHIC EXCLUSION:</strong> RESIDENTS AND CITIZENS OF THE EUROPEAN ECONOMIC AREA (EEA), THE UNITED KINGDOM, SWITZERLAND, AND THE UNITED STATES ARE STRICTLY INELIGIBLE TO PARTICIPATE. By proceeding, you confirm that you reside in Thailand or Southeast Asia and are NOT a resident of the EEA, UK, Switzerland, or US.</p>
+
+              <h4>3. Voluntary Participation &amp; Right to Withdraw</h4>
+              <p>Taking part is entirely voluntary. You may exit the survey at any time prior to clicking &quot;Submit&quot; without consequence. Once your submission is received and your corresponding data has been de-identified and incorporated into the research dataset, it may no longer be possible to isolate, edit, or delete your individual responses.</p>
+
+              <h4>4. Agoda Booking ID &amp; Server-Side Data Extraction Authorization</h4>
+              <p>For the purposes of this study, you will be asked to enter a 10-digit Booking ID from a past Agoda booking that you personally made and completed using the Pay-Later option in the last 90 days. By providing this Booking ID, you expressly authorize the Researcher to request, and Agoda Company Pte. Ltd. to extract and disclose to the Researcher, the following three (3) server-side numerical usability metrics corresponding to that specific Booking ID:</p>
               <ol>
-                <li>Number of clicks &mdash; data used to determine the number of clicks made during the booking process.</li>
-                <li>Task duration &mdash; timestamp data used to calculate the time taken to complete the booking process.</li>
-                <li>Task deviation &mdash; data used to identify repeated steps, changes in selections, backtracking, or other navigation during the booking process and whether Pay-Later and non-Pay-Later options were both visible in the session.</li>
+                <li>Number of clicks &mdash; the aggregate count of user clicks during the booking funnel (e.g., 12 clicks);</li>
+                <li>Task duration &mdash; elapsed time in seconds taken to complete the booking funnel (e.g., 105 seconds); and</li>
+                <li>Task deviation count &mdash; aggregate number of repeated steps, selection changes, and backtracking events (e.g., 3 counts).</li>
               </ol>
-              <p>The Booking ID and, if required for matching, the email address associated with the booking may be used solely for this matching process. Identifying information will not appear in research outputs or publications.</p>
-              <br>
-              <h3>Use of Information in the Study</h3>
-              <p>I understand the data I provide (the questionnaire response below and the permitted extraction of server side data mentioned above) will be used for academic research purposes and possibly published in an academic journal. I understand that personal data collected about me that can identify me will not be shared beyond the study team. Confidentiality will be protected in this manner and data will be stored securely on Google cloud and access restricted. If offline versions are extracted, datasets used for analysis will be de-identified or pseudonymized for confidentiality. Data will not be retained beyond a period of 5-years from completion of the study.</p>
+
+              <h4>5. Data Shared with Agoda &amp; Audit Trail Disclosure</h4>
+              <p>Apart from your Booking ID, your full name and a copy of this Consent Form as duly completed by you (which will be shared with Agoda to verify your authorization and maintain a compliance audit trail), NO survey answers (e.g., your questionnaire responses, age category, gender or opinions) will be shared with Agoda. Matching is conducted strictly on Booking ID and your email address will NOT be shared with Agoda.</p>
+
+              <h4>6. Participant Representation &amp; Warranty</h4>
+              <p>You hereby represent, warrant, and certify to both the Researcher and Agoda Company Pte. Ltd. that: (a) you are the individual who personally made the booking associated with the Booking ID provided; (b) you have full legal power, capacity, and authority to disclose this Booking ID; and (c) disclosing this Booking ID does not breach any third-party privacy right, employment policy, or confidentiality duty.</p>
+
+              <h4>7. Comprehensive Waiver of Liability &amp; Exclusive Recourse</h4>
+              <p>YOU EXPRESSLY AGREE THAT AGODA COMPANY PTE. LTD., ITS PARENT COMPANY (BOOKING HOLDINGS INC.), AND THEIR AFFILIATES, DIRECTORS, OFFICERS, EMPLOYEES, AND AGENTS (COLLECTIVELY, THE &quot;AGODA GROUP&quot;) BEAR NO RESPONSIBILITY OR LIABILITY WHATSOEVER FOR THE STUDY, ITS CONDUCT, METHODOLOGIES, OR THE COLLECTION, STORAGE, USE, HANDLING, OR DISCLOSURE OF DATA BY THE RESEARCHER OR AIT.</p>
+              <p style="margin-top:6px;">YOU HEREBY FULLY RELEASE, WAIVE, AND FOREVER DISCHARGE THE AGODA GROUP FROM ANY AND ALL CLAIMS, DISPUTES, DEMANDS, LIABILITIES, SUITS, OR DAMAGES ARISING OUT OF OR IN CONNECTION WITH THIS STUDY. YOU AGREE THAT YOU WILL DIRECT ALL INQUIRIES, PRIVACY REQUESTS, AND CLAIMS EXCLUSIVELY TO THE RESEARCHER AND AIT, AND WILL SEEK RECOURSE SOLELY FROM THEM AND NOT FROM AGODA.</p>
+
+              <h4>8. Data Security, Retention &amp; Academic Publication</h4>
+              <p>Data about you will be stored securely within the Researcher&rsquo;s Google Cloud with access controls in place. Published research outputs will contain strictly aggregated statistical models and correlation tables; no identifying information will ever appear in any academic thesis or journal publication. All raw research data will be permanently deleted within five (5) years of study completion.</p>
+
+              <h4>Consent and Declaration</h4>
+              <p>By ticking the &quot;I agree&quot; checkbox below and submitting this form, you certify that:</p>
+              <ol>
+                <li>You have read, understood and agreed to the terms above;</li>
+                <li>You are at least 21 years old and a resident of Thailand or Southeast Asia (NOT EEA/UK/Switzerland/US);</li>
+                <li>You understand this study is completely independent from and not endorsed by or affiliated to Agoda;</li>
+                <li>You authorize Agoda to disclose the three specified numerical usability metrics to the Researcher;</li>
+                <li>You have personally completed the booking corresponding to the Booking ID provided and have the full legal power, capacity and authority to disclose this Booking ID and authorize the disclosure of the three specified numerical usability metrics by Agoda;</li>
+                <li>You expressly grant the liability waiver and release to Agoda and will seek recourse solely from the Researcher.</li>
+              </ol>
             </div>
 
             <div class="question">
-              <label class="question-label">
-                Check all that apply <span class="required-star">*</span>
-              </label>
               <div class="option-group">
                 <label class="option-label">
-                  <input type="checkbox" name="Consent" value="Yes" required>
-                  <span>Yes, I consent to participate in this study</span>
+                  <input type="checkbox" name="Consent" value="I AGREE AND CONSENT TO ALL OF THE ABOVE" required>
+                  <span><strong>&#9744; I AGREE AND CONSENT TO ALL OF THE ABOVE.</strong></span>
                 </label>
               </div>
+            </div>
+
+            <div class="signature-line">
+              <div class="question" style="margin-bottom:10px;">
+                <label class="question-label">Participant Name (must correspond exactly to the name under which the booking and Booking ID was made) <span class="required-star">*</span></label>
+                <input type="text" name="FullName" id="fullNameInput" placeholder="Full name as on the booking" required>
+              </div>
+              <p style="font-size:12px; color:var(--text-light); margin:0;">Date of submission and your Booking ID (entered in Section A) will be recorded automatically on your consent record. After you submit, you will be able to download a PDF copy of your completed consent form for your records.</p>
             </div>
           </div>
 
@@ -704,10 +772,10 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               Section A
             </div>
-            <div class="section-desc">Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 60 days using the Pay-Later option.</div>
+            <div class="section-desc">Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 90 days using the Pay-Later option.</div>
 
             <div class="question">
-              <label class="question-label">2. 10-digit Booking ID (for booking made on Agoda in past 60 days; this can be seen on the app or on booking voucher) <span class="required-star">*</span></label>
+              <label class="question-label">2. 10-digit Booking ID (for booking made on Agoda in past 90 days; this can be seen on the app or on booking voucher) <span class="required-star">*</span></label>
               <input type="text" name="BookingID" id="bookingIdInput" placeholder="e.g. 1234567890" maxlength="10" pattern="\d{10}" inputmode="numeric" required>
             </div>
 
@@ -715,7 +783,7 @@
               <label class="question-label">3. Your age? <span class="required-star">*</span></label>
               <input type="number" name="Age" id="ageInput" placeholder="e.g. 28" min="1" max="120" required>
               <div class="age-error" id="ageError">
-                &#9888; You must be at least 18 years old to participate in this study.
+                &#9888; You must be at least 21 years old to participate in this study.
               </div>
             </div>
 
@@ -1091,7 +1159,7 @@
             <div class="section-desc">Thank you for your participation! A few final details.</div>
 
             <div class="question">
-              <label class="question-label">28. Email address associated with this Agoda booking (used only to verify and match the Booking ID with Agoda records).</label>
+              <label class="question-label">28. Email address (optional). Used only by the research team if you agree to be contacted below. It will NOT be shared with Agoda &mdash; matching with Agoda is done strictly on your Booking ID and full name.</label>
               <input type="email" name="Email" placeholder="you@example.com">
             </div>
 
@@ -1122,7 +1190,10 @@
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <h2>Thank You!</h2>
           <p>Your responses have been recorded successfully.<br>We appreciate your participation in this research.</p>
+          <button type="button" class="pdf-download-btn" id="downloadConsentBtn">&#11015; Download my signed consent form (PDF)</button>
         </div>
+
+        
       </div>
     </div>
 
@@ -1209,7 +1280,7 @@
   </div>
 
   <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_b6WOfW3CesPwzlSukWJjJFmzOMM2pUa9CwAQpQmIdHBeNknX2Y4vR80y2EaGiS7_aA/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBwn4z3k80m-7fDI3nw-y7HRPq-GoEYudPPPGk5fv57xs21ZBIM7GoGrugMKOeQRM0/exec";
 
     const totalSteps = 8;
     let currentStep = 1;
@@ -1308,7 +1379,7 @@
         const ageError = document.getElementById('ageError');
         if (ageInput && ageInput.value) {
           const age = parseInt(ageInput.value);
-          if (age < 18) {
+          if (age < 21) {
             ageError.classList.add('visible');
             ageInput.classList.add('error');
             ageInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1359,6 +1430,90 @@
       });
     });
 
+    // ---------- CONSENT PDF GENERATION ----------
+    const CONSENT_PDF_TEXT = [
+      ['H', 'PARTICIPANT INFORMATION SHEET & INFORMED CONSENT FORM'],
+      ['P', 'Doctoral Academic Research Study: Exploring the relationship between usability metrics, consumer perceptions and perceived financial benefits'],
+      ['P', 'Researcher: Jibran Bugvi, Doctoral Candidate, Asian Institute of Technology (AIT)  |  Contact: st122430@ait.asia'],
+      ['S', '1. NATURE AND INDEPENDENCE OF THE STUDY'],
+      ['P', 'You are invited to take part in an independent academic research study conducted by Jibran Bugvi, a doctoral candidate at the Asian Institute of Technology (AIT). This study seeks to explore the relationship between usability metrics, consumer perceptions and perceived financial benefits through the lens of Agoda\u2019s Pay-Later feature, where customers make a travel booking but pay for the purchase at a later date rather than at the time of the booking.'],
+      ['P', 'Instructions: Please answer all questions based on a specific travel booking you made on the Agoda platform in the last 90 days using the Pay-Later option only.'],
+      ['P', 'IMPORTANT NOTICE REGARDING AGODA: THIS STUDY IS AN ENTIRELY INDEPENDENT ENDEAVOUR OF THE RESEARCHER AND IS NOT COMMISSIONED, SPONSORED, OPERATED, FUNDED, AFFILIATED OR ENDORSED BY AGODA COMPANY PTE. LTD., ITS SUBSIDIARIES, AFFILIATES, HEIRS, ASSIGNS, REPRESENTATIVES, DIRECTORS, EMPLOYEES OR AGENTS ("AGODA") IN ANY WAY. While the Researcher is employed by Agoda, this academic project is conducted strictly in his personal capacity as a doctoral student. Your participation is completely voluntary and will have NO IMPACT on your Agoda account, customer status, bookings, loyalty benefits, or relationship with Agoda.'],
+      ['S', '2. ELIGIBILITY CRITERIA & GEOGRAPHIC RESIDENCY CONFIRMATION'],
+      ['P', 'Participation is strictly limited to individuals who meet ALL of the following criteria: you are at least twenty-one (21) years of age; you currently reside in Thailand or another Southeast Asian (ASEAN) nation; and you personally completed a past accommodation booking on Agoda in the last 90 days using the Pay-Later option.'],
+      ['P', 'GEOGRAPHIC EXCLUSION: RESIDENTS AND CITIZENS OF THE EUROPEAN ECONOMIC AREA (EEA), THE UNITED KINGDOM, SWITZERLAND, AND THE UNITED STATES ARE STRICTLY INELIGIBLE TO PARTICIPATE. By proceeding, you confirm that you reside in Thailand or Southeast Asia and are NOT a resident of the EEA, UK, Switzerland, or US.'],
+      ['S', '3. VOLUNTARY PARTICIPATION & RIGHT TO WITHDRAW'],
+      ['P', 'Taking part is entirely voluntary. You may exit the survey at any time prior to clicking "Submit" without consequence. Once your submission is received and your corresponding data has been de-identified and incorporated into the research dataset, it may no longer be possible to isolate, edit, or delete your individual responses.'],
+      ['S', '4. AGODA BOOKING ID & SERVER-SIDE DATA EXTRACTION AUTHORIZATION'],
+      ['P', 'For the purposes of this study, you will be asked to enter a 10-digit Booking ID from a past Agoda booking that you personally made and completed using the Pay-Later option in the last 90 days. By providing this Booking ID, you expressly authorize the Researcher to request, and Agoda Company Pte. Ltd. to extract and disclose to the Researcher, the following three (3) server-side numerical usability metrics corresponding to that specific Booking ID: (1) Number of clicks - the aggregate count of user clicks during the booking funnel (e.g., 12 clicks); (2) Task duration - elapsed time in seconds taken to complete the booking funnel (e.g., 105 seconds); and (3) Task deviation count - aggregate number of repeated steps, selection changes, and backtracking events (e.g., 3 counts).'],
+      ['S', '5. DATA SHARED WITH AGODA & AUDIT TRAIL DISCLOSURE'],
+      ['P', 'Apart from your Booking ID, your full name and a copy of this Consent Form as duly completed by you (which will be shared with Agoda to verify your authorization and maintain a compliance audit trail), NO survey answers (e.g., your questionnaire responses, age category, gender or opinions) will be shared with Agoda. Matching is conducted strictly on Booking ID and your email address will NOT be shared with Agoda.'],
+      ['S', '6. PARTICIPANT REPRESENTATION & WARRANTY'],
+      ['P', 'You hereby represent, warrant, and certify to both the Researcher and Agoda Company Pte. Ltd. that: (a) you are the individual who personally made the booking associated with the Booking ID provided; (b) you have full legal power, capacity, and authority to disclose this Booking ID; and (c) disclosing this Booking ID does not breach any third-party privacy right, employment policy, or confidentiality duty.'],
+      ['S', '7. COMPREHENSIVE WAIVER OF LIABILITY & EXCLUSIVE RECOURSE'],
+      ['P', 'YOU EXPRESSLY AGREE THAT AGODA COMPANY PTE. LTD., ITS PARENT COMPANY (BOOKING HOLDINGS INC.), AND THEIR AFFILIATES, DIRECTORS, OFFICERS, EMPLOYEES, AND AGENTS (COLLECTIVELY, THE "AGODA GROUP") BEAR NO RESPONSIBILITY OR LIABILITY WHATSOEVER FOR THE STUDY, ITS CONDUCT, METHODOLOGIES, OR THE COLLECTION, STORAGE, USE, HANDLING, OR DISCLOSURE OF DATA BY THE RESEARCHER OR AIT.'],
+      ['P', 'YOU HEREBY FULLY RELEASE, WAIVE, AND FOREVER DISCHARGE THE AGODA GROUP FROM ANY AND ALL CLAIMS, DISPUTES, DEMANDS, LIABILITIES, SUITS, OR DAMAGES ARISING OUT OF OR IN CONNECTION WITH THIS STUDY. YOU AGREE THAT YOU WILL DIRECT ALL INQUIRIES, PRIVACY REQUESTS, AND CLAIMS EXCLUSIVELY TO THE RESEARCHER AND AIT, AND WILL SEEK RECOURSE SOLELY FROM THEM AND NOT FROM AGODA.'],
+      ['S', '8. DATA SECURITY, RETENTION & ACADEMIC PUBLICATION'],
+      ['P', 'Data about you will be stored securely within the Researcher\u2019s Google Cloud with access controls in place. Published research outputs will contain strictly aggregated statistical models and correlation tables; no identifying information will ever appear in any academic thesis or journal publication. All raw research data will be permanently deleted within five (5) years of study completion.'],
+      ['S', 'CONSENT AND DECLARATION'],
+      ['P', 'By ticking the "I agree" checkbox below and submitting this form, you certify that: (1) You have read, understood and agreed to the terms above; (2) You are at least 21 years old and a resident of Thailand or Southeast Asia (NOT EEA/UK/Switzerland/US); (3) You understand this study is completely independent from and not endorsed by or affiliated to Agoda; (4) You authorize Agoda to disclose the three specified numerical usability metrics to the Researcher; (5) You have personally completed the booking corresponding to the Booking ID provided and have the full legal power, capacity and authority to disclose this Booking ID and authorize the disclosure of the three specified numerical usability metrics by Agoda; (6) You expressly grant the liability waiver and release to Agoda and will seek recourse solely from the Researcher.']
+    ];
+
+    let consentPdfBase64 = null;
+    let consentPdfFileName = null;
+
+    function generateConsentPDF(bookingId, fullName, consentDate) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+      const margin = 56, pageW = 595, pageH = 842, maxW = pageW - margin * 2;
+      let y = margin;
+
+      const write = (text, size, style, gap) => {
+        doc.setFont('helvetica', style);
+        doc.setFontSize(size);
+        const lines = doc.splitTextToSize(text.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\u2014|\u2013/g, '-'), maxW);
+        lines.forEach(line => {
+          if (y > pageH - margin) { doc.addPage(); y = margin; }
+          doc.text(line, margin, y);
+          y += size * 1.35;
+        });
+        y += gap;
+      };
+
+      CONSENT_PDF_TEXT.forEach(([kind, text]) => {
+        if (kind === 'H') { write(text, 13, 'bold', 8); }
+        else if (kind === 'S') { y += 4; write(text, 10.5, 'bold', 3); }
+        else { write(text, 9.5, 'normal', 5); }
+      });
+
+      // Signature / execution block
+      y += 10;
+      if (y > pageH - 170) { doc.addPage(); y = margin; }
+      doc.setDrawColor(120); doc.setLineWidth(0.8);
+      doc.rect(margin, y - 6, maxW, 26);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(15, 52, 96);
+      doc.text('[X]  I AGREE AND CONSENT TO ALL OF THE ABOVE.', margin + 10, y + 11);
+      doc.setTextColor(0);
+      y += 44;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5);
+      doc.text('Agoda Booking ID (10 digits):  ' + bookingId, margin, y); y += 22;
+      doc.text('Participant Name (exactly as on the booking):  ' + fullName, margin, y); y += 22;
+      doc.text('Date of Submission:  ' + consentDate, margin, y); y += 22;
+      doc.setFontSize(8.5); doc.setTextColor(110);
+      doc.text('Consent recorded electronically via the study survey. Timestamp (UTC): ' + new Date().toISOString(), margin, y);
+
+      consentPdfFileName = 'Consent_' + bookingId + '_' + fullName.replace(/[^a-z0-9]+/gi, '_') + '.pdf';
+      consentPdfBase64 = doc.output('datauristring').split(',')[1];
+      return doc;
+    }
+
+    document.getElementById('downloadConsentBtn').addEventListener('click', function() {
+      const bid = document.getElementById('bookingIdInput').value || 'BookingID';
+      const nm = document.getElementById('fullNameInput').value || 'Participant';
+      const dt = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+      generateConsentPDF(bid, nm, dt).save(consentPdfFileName);
+    });
+
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       if (!validateCurrentStep()) return;
@@ -1374,6 +1529,20 @@
       const formData = new FormData(this);
       const payload = {};
       formData.forEach((value, key) => payload[key] = value);
+
+      // Consent record metadata
+      const now = new Date();
+      payload.ConsentDate = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+      payload.ConsentTimestampUTC = now.toISOString();
+
+      // Generate the signed consent PDF and attach it (Apps Script saves it to Google Drive)
+      try {
+        generateConsentPDF(payload.BookingID || 'BookingID', payload.FullName || 'Participant', payload.ConsentDate);
+        payload.ConsentPDFBase64 = consentPdfBase64;
+        payload.ConsentPDFFileName = consentPdfFileName;
+      } catch (pdfErr) {
+        console.warn('PDF generation failed; submitting responses only.', pdfErr);
+      }
 
       try {
         await fetch(GOOGLE_SCRIPT_URL, {
