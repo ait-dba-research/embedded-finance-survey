@@ -1301,7 +1301,7 @@
   </div>
 
   <script>
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_b6WOfW3CesPwzlSukWJjJFmzOMM2pUa9CwAQpQmIdHBeNknX2Y4vR80y2EaGiS7_aA/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBwn4z3k80m-7fDI3nw-y7HRPq-GoEYudPPPGk5fv57xs21ZBIM7GoGrugMKOeQRM0/exec";
 
     const totalSteps = 8;
     let currentStep = 1;
@@ -1435,7 +1435,12 @@
     document.querySelectorAll('input[name="PurposeOfBooking"]').forEach(radio => {
       radio.addEventListener('change', function() {
         const otherField = document.getElementById('other-purpose');
-        if (this.value !== 'Other') otherField.classList.remove('visible');
+        if (this.value !== 'Other') {
+          otherField.classList.remove('visible');
+          // Clear any previously typed text so stale "Other" text is never submitted
+          const txt = otherField.querySelector('input');
+          if (txt) txt.value = '';
+        }
       });
     });
 
@@ -1552,6 +1557,13 @@
       const formData = new FormData(this);
       const payload = {};
       formData.forEach((value, key) => payload[key] = value);
+
+      // If "Other" was chosen for booking purpose, merge the free text into the
+      // main value so it is unmistakable in the Sheet (the separate
+      // PurposeOfBooking_OtherText column is kept as well).
+      if (payload.PurposeOfBooking === 'Other' && payload.PurposeOfBooking_OtherText) {
+        payload.PurposeOfBooking = 'Other: ' + payload.PurposeOfBooking_OtherText.trim();
+      }
 
       // Consent record metadata
       const now = new Date();
