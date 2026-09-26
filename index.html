@@ -660,6 +660,12 @@
     }
   </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  // Silent failover: if the first CDN is blocked, load jsPDF from a mirror.
+  if (typeof window.jspdf === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"><\/script>');
+  }
+</script>
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -1558,7 +1564,11 @@
         payload.ConsentPDFBase64 = consentPdfBase64;
         payload.ConsentPDFFileName = consentPdfFileName;
       } catch (pdfErr) {
-        console.warn('PDF generation failed; submitting responses only.', pdfErr);
+        // Never block the participant: if the PDF cannot be generated on this
+        // device, the Apps Script builds the consent record server-side instead
+        // from the signature text below, and emails it to the researcher.
+        console.warn('PDF generation failed; server will build the consent record.', pdfErr);
+        payload.ConsentSignatureText = '[X] I AGREE AND CONSENT TO ALL OF THE ABOVE.  |  Agoda Booking ID (10 digits): ' + (payload.BookingID || '') + '  |  Participant Name (exactly as on the booking): ' + (payload.FullName || '') + '  |  Date of Submission: ' + payload.ConsentDate + '  |  Consent recorded electronically via the study survey. Timestamp (UTC): ' + payload.ConsentTimestampUTC;
       }
 
       try {
