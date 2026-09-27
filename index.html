@@ -1026,6 +1026,20 @@
               </div>
               <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
             </div>
+
+            <div class="question" id="nonsenseCheckQ" style="display:none;">
+              <label class="question-label">I made this travel booking more than 200 years ago. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="1" id="nc_1"><label for="nc_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="2" id="nc_2"><label for="nc_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="3" id="nc_3"><label for="nc_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="4" id="nc_4"><label for="nc_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="5" id="nc_5"><label for="nc_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="6" id="nc_6"><label for="nc_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="NonsenseCheck" value="7" id="nc_7"><label for="nc_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
           </div>
 
           <!-- STEP 5: SECTION D -->
@@ -1757,6 +1771,9 @@
       const acq = document.getElementById('attentionCheckQ');
       acq.style.display = 'block';
       acq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
+      const ncq = document.getElementById('nonsenseCheckQ');
+      ncq.style.display = 'block';
+      ncq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
       document.getElementById('prolificReturnBtn').style.display = 'inline-block';
       document.getElementById('prolificCodeNote').style.display = 'block';
       showStep(0);
