@@ -692,6 +692,58 @@
       <div class="form-body" id="formBody">
         <form id="surveyForm">
 
+
+          <!-- PROLIFIC SCREENER (visible only to Prolific participants; shown as Step 1) -->
+          <div class="step" id="screenerStep" data-step="0" style="display:none;">
+            <div class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Eligibility Check
+            </div>
+            <div class="section-desc">Before we begin, please confirm the four eligibility requirements for this study. This takes less than a minute.</div>
+
+            <div class="question">
+              <label class="question-label">S1. Are you 21 years of age or older? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_Age" value="Yes"><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_Age" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S2. Do you currently reside in a Southeast Asian (ASEAN) country, and are you NOT a resident or national of the European Economic Area (EEA), the United Kingdom, Switzerland, or the United States? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_Residency" value="Yes"><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_Residency" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S3. In the last 120 days, have you personally completed a travel booking where you paid using a "Pay-Later" option (book now, pay at a later date)? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_PayLater" value="Yes"><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_PayLater" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S4. Was that booking made on Agoda, and do you have the 10-digit Booking ID for it? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_BookingID" value="Yes"><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_BookingID" value="No"><span>No</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROLIFIC SCREEN-OUT PAGE -->
+          <div class="step" id="screenoutStep" data-step="-1" style="display:none;">
+            <div class="section-title">Thank You for Your Interest</div>
+            <div class="section-desc">
+              <p>Based on your answers, this particular study is not a match for you this time. The study requires participants who are 21 or older, currently reside in Southeast Asia, and have personally completed an Agoda booking using the Pay-Later option in the last 120 days (with the 10-digit Booking ID available).</p>
+              <p style="margin-top:12px;"><strong>Please return this submission on Prolific by clicking "Stop without completing"</strong> (or "Return study") on the Prolific submission page. This costs you nothing, does not affect your Prolific standing, and the slot will be released for another participant.</p>
+              <p style="margin-top:12px;">Thank you again for your time.</p>
+            </div>
+          </div>
+
           <!-- STEP 1: ELIGIBILITY & CONSENT -->
           <div class="step active" data-step="1">
             <div class="section-title">
@@ -1104,6 +1156,21 @@
               </div>
               <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
             </div>
+
+            <div class="question" id="attentionCheckQ" style="display:none;">
+              <div class="section-desc" style="border-left:3px solid var(--accent); padding-left:12px; margin-bottom:14px;">Data quality check &mdash; please read carefully.</div>
+              <label class="question-label">To confirm you are reading each question carefully, please select "Somewhat Agree" (4) for this item. <span class="required-star">*</span></label>
+              <div class="likert-container">
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="1" id="ac_1"><label for="ac_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="2" id="ac_2"><label for="ac_2" class="likert-box">2</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="3" id="ac_3"><label for="ac_3" class="likert-box">3</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="4" id="ac_4"><label for="ac_4" class="likert-box">4</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="5" id="ac_5"><label for="ac_5" class="likert-box">5</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="6" id="ac_6"><label for="ac_6" class="likert-box">6</label></div>
+                <div class="likert-option"><input type="radio" name="AttentionCheck" value="7" id="ac_7"><label for="ac_7" class="likert-box">7</label></div>
+              </div>
+              <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+            </div>
           </div>
 
           <!-- STEP 7: SECTION F -->
@@ -1212,6 +1279,9 @@
           <h2>Thank You!</h2>
           <p>Your responses have been recorded successfully.<br>We appreciate your participation in this research.</p>
           <button type="button" class="pdf-download-btn" id="downloadConsentBtn">&#11015; Download my signed consent form (PDF)</button>
+          <br>
+          <a href="https://app.prolific.com/submissions/complete?cc=CAZ6T3C4" id="prolificReturnBtn" class="pdf-download-btn" style="display:none; margin-top:14px; text-decoration:none;">&#8594; Return to Prolific to complete your submission</a>
+          <p id="prolificCodeNote" style="display:none; margin-top:10px; font-size:13px; color:var(--text-light);">If asked for a completion code on Prolific, it is: <strong>CAZ6T3C4</strong></p>
         </div>
 
         
@@ -1303,6 +1373,18 @@
   <script>
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBwn4z3k80m-7fDI3nw-y7HRPq-GoEYudPPPGk5fv57xs21ZBIM7GoGrugMKOeQRM0/exec";
 
+    // ---------- PROLIFIC INTEGRATION ----------
+    // Prolific visitors arrive with ?PROLIFIC_PID=...&STUDY_ID=...&SESSION_ID=...
+    // They get: (1) an eligibility screener as Step 1, (2) an embedded attention
+    // check in Section E, (3) a Return-to-Prolific button on the thank-you page.
+    // Everyone else (social media, university forum, direct link) sees the
+    // survey exactly as before — no screener, no attention check, no button.
+    const urlParams = new URLSearchParams(window.location.search);
+    const PROLIFIC_PID = urlParams.get('PROLIFIC_PID') || '';
+    const PROLIFIC_STUDY_ID = urlParams.get('STUDY_ID') || '';
+    const PROLIFIC_SESSION_ID = urlParams.get('SESSION_ID') || '';
+    const isProlific = PROLIFIC_PID.length > 0;
+
     const totalSteps = 8;
     let currentStep = 1;
 
@@ -1329,12 +1411,30 @@
     ];
 
     function updateProgress() {
-      const pct = Math.round(((currentStep - 1) / totalSteps) * 100);
+      const displayTotal = isProlific ? totalSteps + 1 : totalSteps;
+      let pct, title, message;
+
+      if (currentStep === 0) {
+        // Prolific eligibility screener
+        pct = 0;
+        title = 'Step 1 of ' + displayTotal + ': Eligibility Check';
+        message = 'Quick eligibility check before we begin.';
+      } else if (currentStep === -1) {
+        // Screen-out page
+        pct = 0;
+        title = 'Thank You';
+        message = 'Thank you for your interest.';
+      } else {
+        const displayStep = isProlific ? currentStep + 1 : currentStep;
+        pct = Math.round(((displayStep - 1) / displayTotal) * 100);
+        title = 'Step ' + displayStep + ' of ' + displayTotal + ': ' + stepTitles[currentStep - 1];
+        message = progressMessages[currentStep - 1];
+      }
+
       document.getElementById('topProgressFill').style.width = pct + '%';
-      document.getElementById('stepLabel').textContent =
-        `Step ${currentStep} of ${totalSteps}: ${stepTitles[currentStep - 1]}`;
+      document.getElementById('stepLabel').textContent = title;
       document.getElementById('progressPercent').textContent = pct + '%';
-      document.getElementById('progressMessage').textContent = progressMessages[currentStep - 1];
+      document.getElementById('progressMessage').textContent = message;
       document.getElementById('trackerLineFill').style.height = pct + '%';
 
       document.querySelectorAll('.tracker-step').forEach((step, idx) => {
@@ -1349,11 +1449,27 @@
     }
 
     function showStep(n) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
-      document.getElementById('prevBtn').style.display = n === 1 ? 'none' : 'inline-block';
-      document.getElementById('nextBtn').style.display = n === totalSteps ? 'none' : 'inline-block';
-      document.getElementById('submitBtn').style.display = n === totalSteps ? 'inline-block' : 'none';
+      document.querySelectorAll('.step').forEach(s => {
+        s.classList.remove('active');
+        if (s.id === 'screenerStep' || s.id === 'screenoutStep') s.style.display = 'none';
+      });
+      const target = document.querySelector(`.step[data-step="${n}"]`);
+      if (target) {
+        if (target.id === 'screenerStep' || target.id === 'screenoutStep') target.style.display = 'block';
+        target.classList.add('active');
+      }
+
+      const nav = document.querySelector('.nav-buttons');
+      if (n === -1) {
+        // Screen-out page: no navigation back into the survey
+        nav.style.display = 'none';
+      } else {
+        nav.style.display = '';
+        document.getElementById('prevBtn').style.display = (n === 1 || n === 0) ? 'none' : 'inline-block';
+        document.getElementById('nextBtn').style.display = n === totalSteps ? 'none' : 'inline-block';
+        document.getElementById('submitBtn').style.display = n === totalSteps ? 'inline-block' : 'none';
+      }
+
       currentStep = n;
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1394,6 +1510,19 @@
 
     function changeStep(direction) {
       if (direction === 1 && !validateCurrentStep()) return;
+
+      // Prolific eligibility gate: any "No" on the screener routes to the
+      // screen-out page; four "Yes" answers admit the participant to Step 1.
+      if (currentStep === 0 && direction === 1) {
+        const screened = ['Screen_Age', 'Screen_Residency', 'Screen_PayLater', 'Screen_BookingID']
+          .some(name => {
+            const checked = document.querySelector(`input[name="${name}"]:checked`);
+            return checked && checked.value === 'No';
+          });
+        if (screened) { showStep(-1); return; }
+        showStep(1);
+        return;
+      }
 
       if (currentStep === 2 && direction === 1) {
         const ageInput = document.getElementById('ageInput');
@@ -1570,6 +1699,13 @@
       payload.ConsentDate = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
       payload.ConsentTimestampUTC = now.toISOString();
 
+      // Prolific tracking params (empty strings for non-Prolific visitors, so
+      // Sheet columns stay consistent). Screener answers (Screen_*) and
+      // AttentionCheck flow in automatically via FormData above.
+      payload.PROLIFIC_PID = PROLIFIC_PID;
+      payload.PROLIFIC_STUDY_ID = PROLIFIC_STUDY_ID;
+      payload.PROLIFIC_SESSION_ID = PROLIFIC_SESSION_ID;
+
       // Generate the signed consent PDF and attach it (Apps Script saves it to Google Drive)
       try {
         generateConsentPDF(payload.BookingID || 'BookingID', payload.FullName || 'Participant', payload.ConsentDate);
@@ -1614,7 +1750,20 @@
       }
     });
 
-    showStep(1);
+    if (isProlific) {
+      // Prolific visitor: enable screener (as the new Step 1) and the attention
+      // check in Section E, and arm the Return-to-Prolific button.
+      document.querySelectorAll('#screenerStep input[type="radio"]').forEach(r => r.required = true);
+      const acq = document.getElementById('attentionCheckQ');
+      acq.style.display = 'block';
+      acq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
+      document.getElementById('prolificReturnBtn').style.display = 'inline-block';
+      document.getElementById('prolificCodeNote').style.display = 'block';
+      showStep(0);
+    } else {
+      // Everyone else: survey exactly as before.
+      showStep(1);
+    }
   </script>
 </body>
 </html>
