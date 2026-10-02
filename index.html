@@ -211,7 +211,8 @@
     input[type="text"],
     input[type="email"],
     input[type="number"],
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 13px 15px;
       border: 2px solid var(--border);
@@ -222,14 +223,14 @@
       background: #fafafa;
     }
 
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--primary);
       background: #fff;
       box-shadow: 0 0 0 4px rgba(15, 52, 96, 0.08);
     }
 
-    input.error, textarea.error {
+    input.error, textarea.error, select.error {
       border-color: var(--accent);
       background: #fff5f5;
     }
@@ -693,59 +694,88 @@
         <form id="surveyForm">
 
 
-          <!-- PROLIFIC SCREENER (visible only to Prolific participants; shown as Step 1) -->
-          <div class="step" id="screenerStep" data-step="0" style="display:none;">
+          <!-- STEP 0: BACKGROUND QUESTIONS (Prolific visitors only — vague in-survey screener
+               per Prolific custom-screening policy. Qualifying answers are hidden among
+               decoys; failing any criterion redirects to Prolific's screen-out completion
+               path so the participant is auto-approved and paid the screen-out reward.
+               Never shown to non-Prolific visitors.) -->
+          <div class="step" data-step="0">
             <div class="section-title">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              Eligibility Check
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Background Questions
             </div>
-            <div class="section-desc">Before we begin, please confirm the four eligibility requirements for this study. This takes less than a minute.</div>
+            <div class="section-desc">Before we begin, a few quick questions about you and your recent online activity. Please answer honestly &mdash; there are no right or wrong answers.</div>
 
             <div class="question">
-              <label class="question-label">S1. Are you 21 years of age or older? <span class="required-star">*</span></label>
+              <label class="question-label">S1. What is your age? <span class="required-star">*</span></label>
+              <input type="number" name="Screen_Age" id="screenAge" placeholder="e.g. 28" min="1" max="120" required>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S2. Do you currently live in Southeast Asia? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_Age" value="Yes"><span>Yes</span></label>
-                <label class="option-label"><input type="radio" name="Screen_Age" value="No"><span>No</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ResideSEA" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ResideSEA" value="No"><span>No</span></label>
               </div>
             </div>
 
             <div class="question">
-              <label class="question-label">S2. Do you currently reside in a Southeast Asian (ASEAN) country, and are you NOT a resident or national of the European Economic Area (EEA), the United Kingdom, Switzerland, or the United States? <span class="required-star">*</span></label>
+              <label class="question-label">S3. Are you a resident or national of the European Economic Area (EEA), the United Kingdom, Switzerland, or the United States? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_Residency" value="Yes"><span>Yes</span></label>
-                <label class="option-label"><input type="radio" name="Screen_Residency" value="No"><span>No</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ExcludedRegion" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ExcludedRegion" value="No"><span>No</span></label>
               </div>
             </div>
 
             <div class="question">
-              <label class="question-label">S3. In the last 120 days, have you personally completed a travel booking where you paid using a "Pay-Later" option (book now, pay at a later date)? <span class="required-star">*</span></label>
+              <label class="question-label">S4. Which of the following have you done in the past 6 months? (Select all that apply) <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_PayLater" value="Yes"><span>Yes</span></label>
-                <label class="option-label"><input type="radio" name="Screen_PayLater" value="No"><span>No</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Ordered food delivery online"><span>Ordered food delivery online</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Bought event or movie tickets online"><span>Bought event or movie tickets online</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Booked accommodation online"><span>Booked accommodation online</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Played online games"><span>Played online games</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Used online banking"><span>Used online banking</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="none"><span>None of these</span></label>
               </div>
             </div>
 
             <div class="question">
-              <label class="question-label">S4. Was that booking made on Agoda, and do you have the 10-digit Booking ID for it? <span class="required-star">*</span></label>
+              <label class="question-label">S5. Which of these payment methods have you used for online purchases in the past 12 months? (Select all that apply) <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_BookingID" value="Yes"><span>Yes</span></label>
-                <label class="option-label"><input type="radio" name="Screen_BookingID" value="No"><span>No</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Credit or debit card"><span>Credit or debit card</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Bank transfer"><span>Bank transfer</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="E-wallet"><span>E-wallet (e.g., GrabPay, Touch &#39;n Go, TrueMoney)</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Cash on delivery"><span>Cash on delivery</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Pay-Later"><span>Pay-Later (book or buy now, pay at a later date)</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="none"><span>I have not made any online purchases in the past 12 months</span></label>
               </div>
             </div>
-          </div>
 
-          <!-- PROLIFIC SCREEN-OUT PAGE -->
-          <div class="step" id="screenoutStep" data-step="-1" style="display:none;">
-            <div class="section-title">Thank You for Your Interest</div>
-            <div class="section-desc">
-              <p>Based on your answers, this particular study is not a match for you this time. The study requires participants who are 21 or older, currently reside in Southeast Asia, and have personally completed an Agoda booking using the Pay-Later option in the last 120 days (with the 10-digit Booking ID available).</p>
-              <p style="margin-top:12px;"><strong>Please return this submission on Prolific by clicking "Stop without completing"</strong> (or "Return study") on the Prolific submission page. This costs you nothing, does not affect your Prolific standing, and the slot will be released for another participant.</p>
-              <p style="margin-top:12px;">Thank you again for your time.</p>
+            <div class="question">
+              <label class="question-label">S6. Which of these websites or apps have you used to book travel (flights, hotels, or other accommodation) in the past 12 months? (Select all that apply) <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Booking.com"><span>Booking.com</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Expedia"><span>Expedia</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Agoda"><span>Agoda</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Airbnb"><span>Airbnb</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Traveloka"><span>Traveloka</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Trip.com"><span>Trip.com</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Hotels.com"><span>Hotels.com</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="none"><span>I have not booked travel online in the past 12 months</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S7. Have you previously taken part in this research study? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="No" required><span>No</span></label>
+                <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="Yes"><span>Yes</span></label>
+              </div>
             </div>
           </div>
 
           <!-- STEP 1: ELIGIBILITY & CONSENT -->
-          <div class="step active" data-step="1">
+          <div class="step" data-step="1">
             <div class="section-title">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
               1. Participant Information &amp; Informed Consent
@@ -819,6 +849,20 @@
                 <li>You have personally completed the booking corresponding to the Booking ID provided and have the full legal power, capacity and authority to disclose this Booking ID and authorize the disclosure of the three specified numerical usability metrics by Agoda;</li>
                 <li>You expressly grant the liability waiver and release to Agoda and will seek recourse solely from the Researcher.</li>
               </ol>
+            </div>
+
+            <!-- PRIVACY NOTICE (data-protection summary; separate from the verbatim legal consent text above) -->
+            <div class="consent-box" style="border-color: var(--primary);">
+              <h3>Privacy Notice</h3>
+              <p style="font-size:12px; color:var(--text-light);">This notice summarises how your personal data is handled. The consent form above contains the full legal terms; where it refers to email addresses, please note that this survey does not collect email addresses at all.</p>
+              <p><strong>Data collected:</strong> your full name and 10-digit Booking ID (for the legal consent record and verification of your authorization), together with your survey answers (including age and gender). No email address is collected.</p>
+              <p><strong>Use:</strong> your name and Booking ID verify your consent under a Data Sharing Agreement with the platform; the Booking ID authorizes one-time extraction of three numerical usability metrics (clicks, task duration, task deviation) for that booking. Analysis is performed on de-identified data only; all published outputs contain aggregated statistics only.</p>
+              <p><strong>Lawful basis:</strong> your explicit informed consent, given before any data is collected. Participation is voluntary and you may withdraw before submitting, without consequence.</p>
+              <p><strong>Retention:</strong> identifiers (name, Booking ID) are stored separately from research data and destroyed within approximately 12 months, once verification is complete; de-identified research data is permanently deleted within five (5) years of study completion.</p>
+              <p><strong>Storage &amp; security:</strong> data is stored in the Researcher&rsquo;s private Google account, encrypted in transit and at rest, protected by two-factor authentication, with access restricted to the Researcher only. This survey website itself stores nothing.</p>
+              <p><strong>Sharing:</strong> the platform receives only your consent record (name + Booking ID) for verification &mdash; never your survey answers. Google provides hosting infrastructure only. No other third party receives your data.</p>
+              <p><strong>Your rights:</strong> before your data is de-identified, you may request access, correction, or deletion of your personal data, or withdraw consent, by emailing st122430@ait.asia.</p>
+              <p><strong>Standards:</strong> this study follows the Asian Institute of Technology&rsquo;s research ethics and data-protection requirements and the principles of the Thai Personal Data Protection Act (PDPA). Residents of the EEA, UK, Switzerland, and the US are excluded from this study by design.</p>
             </div>
 
             <div class="question">
@@ -1261,12 +1305,7 @@
             <div class="section-desc">Thank you for your participation! A few final details.</div>
 
             <div class="question">
-              <label class="question-label">28. Email address (optional). Used only by the research team if you agree to be contacted below. It will NOT be shared with Agoda &mdash; matching with Agoda is done strictly on your Booking ID and full name.</label>
-              <input type="email" name="Email" placeholder="you@example.com">
-            </div>
-
-            <div class="question">
-              <label class="question-label">29. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span></label>
+              <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);">This survey does not collect email addresses. Any contact would be made through the platform where you found this survey (e.g., Prolific&rsquo;s messaging system).</span></label>
               <div class="option-group">
                 <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
@@ -1274,7 +1313,7 @@
             </div>
 
             <div class="question">
-              <label class="question-label">30. Do you have any questions, comments or suggestions for us?</label>
+              <label class="question-label">29. Do you have any questions, comments or suggestions for us?</label>
               <textarea name="Comments" placeholder="Your feedback is welcome..."></textarea>
             </div>
           </div>
@@ -1389,15 +1428,110 @@
 
     // ---------- PROLIFIC INTEGRATION ----------
     // Prolific visitors arrive with ?PROLIFIC_PID=...&STUDY_ID=...&SESSION_ID=...
-    // They get: (1) an eligibility screener as Step 1, (2) an embedded attention
-    // check in Section E, (3) a Return-to-Prolific button on the thank-you page.
+    // They first see an in-survey screener (step 0, "Background Questions")
+    // per Prolific's custom-screening policy: qualifying answers are hidden
+    // among decoy options, and anyone who does not qualify is redirected to
+    // Prolific's screen-out completion path (auto-approved, paid the screen-out
+    // reward). Prolific visitors also get: (1) two embedded attention checks
+    // (Section C nonsense item + Section E instructed-response item),
+    // (2) a Return-to-Prolific button on the thank-you page.
     // Everyone else (social media, university forum, direct link) sees the
-    // survey exactly as before — no screener, no attention check, no button.
+    // standard survey without screener, attention checks, or Prolific extras.
     const urlParams = new URLSearchParams(window.location.search);
     const PROLIFIC_PID = urlParams.get('PROLIFIC_PID') || '';
     const PROLIFIC_STUDY_ID = urlParams.get('STUDY_ID') || '';
     const PROLIFIC_SESSION_ID = urlParams.get('SESSION_ID') || '';
     const isProlific = PROLIFIC_PID.length > 0;
+
+    // ---------- IN-SURVEY SCREENER (Prolific visitors only) ----------
+    const SCREENOUT_URL = 'https://app.prolific.com/submissions/complete?cc=CX3ONJ2A';
+
+    function checkedValues(groupName) {
+      return Array.from(document.querySelectorAll(`input[name="${groupName}"]:checked`)).map(b => b.value);
+    }
+
+    // Returns null if the participant qualifies, {type:'incomplete', el} if a
+    // question group is unanswered, or {type:'fail', reason} if screened out.
+    function evaluateScreener() {
+      const age = parseInt(document.getElementById('screenAge').value);
+      if (isNaN(age) || age < 21) return { type: 'fail', reason: 'under_21' };
+
+      const resideSEA = document.querySelector('input[name="Screen_ResideSEA"]:checked');
+      if (!resideSEA || resideSEA.value !== 'Yes') return { type: 'fail', reason: 'residence' };
+
+      const excludedRegion = document.querySelector('input[name="Screen_ExcludedRegion"]:checked');
+      if (!excludedRegion || excludedRegion.value !== 'No') return { type: 'fail', reason: 'excluded_region' };
+
+      const groups = [
+        { name: 'Screen_Activities', must: 'Booked accommodation online', reason: 'no_online_accommodation' },
+        { name: 'Screen_Payment',    must: 'Pay-Later',                  reason: 'no_paylater' },
+        { name: 'Screen_Platform',   must: 'Agoda',                      reason: 'no_agoda' }
+      ];
+      for (const g of groups) {
+        const vals = checkedValues(g.name);
+        if (vals.length === 0) {
+          return { type: 'incomplete', el: document.querySelector(`input[name="${g.name}"]`) };
+        }
+        if (vals.includes('none') || !vals.includes(g.must)) {
+          return { type: 'fail', reason: g.reason };
+        }
+      }
+
+      const prior = document.querySelector('input[name="Screen_PriorParticipation"]:checked');
+      if (prior && prior.value === 'Yes') return { type: 'fail', reason: 'prior_participation' };
+
+      return null;
+    }
+
+    // Screen-out: log a minimal row to the Sheet (ScreenOut=TRUE, no consent
+    // PDF/email is generated server-side) and send the participant to
+    // Prolific's screen-out completion path so the submission is registered
+    // as a screen-out (auto-approved, paid the screen-out reward).
+    function handleScreenOut(reason) {
+      try { sessionStorage.setItem('efScreenedOut', reason); } catch (e) {}
+      try {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ScreenOut: 'TRUE',
+            ScreenOutReason: reason,
+            Screen_Age: document.getElementById('screenAge').value,
+            Screen_ResideSEA: (document.querySelector('input[name="Screen_ResideSEA"]:checked') || {}).value || '',
+            Screen_ExcludedRegion: (document.querySelector('input[name="Screen_ExcludedRegion"]:checked') || {}).value || '',
+            PROLIFIC_PID: PROLIFIC_PID,
+            PROLIFIC_STUDY_ID: PROLIFIC_STUDY_ID,
+            PROLIFIC_SESSION_ID: PROLIFIC_SESSION_ID,
+            ConsentTimestampUTC: new Date().toISOString()
+          })
+        });
+      } catch (e) {}
+      // Brief delay so the log request is dispatched before navigation
+      setTimeout(() => { window.location.href = SCREENOUT_URL; }, 400);
+    }
+
+    // "None of these" is mutually exclusive with the other options in its group
+    function setupNoneExclusivity(groupName) {
+      const boxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      const noneBox = boxes.find(b => b.value === 'none');
+      if (!noneBox) return;
+      boxes.forEach(b => {
+        b.addEventListener('change', () => {
+          if (b === noneBox && b.checked) {
+            boxes.forEach(o => {
+              if (o !== noneBox) {
+                o.checked = false;
+                o.closest('.option-label').classList.remove('selected');
+              }
+            });
+          } else if (b !== noneBox && b.checked && noneBox.checked) {
+            noneBox.checked = false;
+            noneBox.closest('.option-label').classList.remove('selected');
+          }
+        });
+      });
+    }
 
     const totalSteps = 8;
     let currentStep = 1;
@@ -1425,30 +1559,17 @@
     ];
 
     function updateProgress() {
+      // Prolific visitors see the screener as "Step 1 of 9", so the remaining
+      // steps display as 2..9; everyone else sees the standard 1..8.
       const displayTotal = isProlific ? totalSteps + 1 : totalSteps;
-      let pct, title, message;
-
-      if (currentStep === 0) {
-        // Prolific eligibility screener
-        pct = 0;
-        title = 'Step 1 of ' + displayTotal + ': Eligibility Check';
-        message = 'Quick eligibility check before we begin.';
-      } else if (currentStep === -1) {
-        // Screen-out page
-        pct = 0;
-        title = 'Thank You';
-        message = 'Thank you for your interest.';
-      } else {
-        const displayStep = isProlific ? currentStep + 1 : currentStep;
-        pct = Math.round(((displayStep - 1) / displayTotal) * 100);
-        title = 'Step ' + displayStep + ' of ' + displayTotal + ': ' + stepTitles[currentStep - 1];
-        message = progressMessages[currentStep - 1];
-      }
-
+      const displayStep = isProlific ? currentStep + 1 : currentStep;
+      const title = currentStep === 0 ? 'Background Questions' : stepTitles[currentStep - 1];
+      const pct = Math.round(((displayStep - 1) / displayTotal) * 100);
       document.getElementById('topProgressFill').style.width = pct + '%';
-      document.getElementById('stepLabel').textContent = title;
+      document.getElementById('stepLabel').textContent =
+        `Step ${displayStep} of ${displayTotal}: ${title}`;
       document.getElementById('progressPercent').textContent = pct + '%';
-      document.getElementById('progressMessage').textContent = message;
+      document.getElementById('progressMessage').textContent = progressMessages[Math.max(currentStep - 1, 0)];
       document.getElementById('trackerLineFill').style.height = pct + '%';
 
       document.querySelectorAll('.tracker-step').forEach((step, idx) => {
@@ -1463,27 +1584,11 @@
     }
 
     function showStep(n) {
-      document.querySelectorAll('.step').forEach(s => {
-        s.classList.remove('active');
-        if (s.id === 'screenerStep' || s.id === 'screenoutStep') s.style.display = 'none';
-      });
-      const target = document.querySelector(`.step[data-step="${n}"]`);
-      if (target) {
-        if (target.id === 'screenerStep' || target.id === 'screenoutStep') target.style.display = 'block';
-        target.classList.add('active');
-      }
-
-      const nav = document.querySelector('.nav-buttons');
-      if (n === -1) {
-        // Screen-out page: no navigation back into the survey
-        nav.style.display = 'none';
-      } else {
-        nav.style.display = '';
-        document.getElementById('prevBtn').style.display = (n === 1 || n === 0) ? 'none' : 'inline-block';
-        document.getElementById('nextBtn').style.display = n === totalSteps ? 'none' : 'inline-block';
-        document.getElementById('submitBtn').style.display = n === totalSteps ? 'inline-block' : 'none';
-      }
-
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
+      document.getElementById('prevBtn').style.display = n <= 1 ? 'none' : 'inline-block';
+      document.getElementById('nextBtn').style.display = n === totalSteps ? 'none' : 'inline-block';
+      document.getElementById('submitBtn').style.display = n === totalSteps ? 'inline-block' : 'none';
       currentStep = n;
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1525,17 +1630,17 @@
     function changeStep(direction) {
       if (direction === 1 && !validateCurrentStep()) return;
 
-      // Prolific eligibility gate: any "No" on the screener routes to the
-      // screen-out page; four "Yes" answers admit the participant to Step 1.
-      if (currentStep === 0 && direction === 1) {
-        const screened = ['Screen_Age', 'Screen_Residency', 'Screen_PayLater', 'Screen_BookingID']
-          .some(name => {
-            const checked = document.querySelector(`input[name="${name}"]:checked`);
-            return checked && checked.value === 'No';
-          });
-        if (screened) { showStep(-1); return; }
-        showStep(1);
-        return;
+      // Prolific screener gate: evaluate eligibility before leaving step 0.
+      if (direction === 1 && currentStep === 0) {
+        const result = evaluateScreener();
+        if (result) {
+          if (result.type === 'incomplete') {
+            result.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
+          handleScreenOut(result.reason);
+          return;
+        }
       }
 
       if (currentStep === 2 && direction === 1) {
@@ -1557,7 +1662,7 @@
       }
 
       const newStep = currentStep + direction;
-      if (newStep >= 1 && newStep <= totalSteps) showStep(newStep);
+      if (newStep >= (isProlific ? 0 : 1) && newStep <= totalSteps) showStep(newStep);
     }
 
     document.getElementById('bookingIdInput').addEventListener('input', function(e) {
@@ -1714,8 +1819,8 @@
       payload.ConsentTimestampUTC = now.toISOString();
 
       // Prolific tracking params (empty strings for non-Prolific visitors, so
-      // Sheet columns stay consistent). Screener answers (Screen_*) and
-      // AttentionCheck flow in automatically via FormData above.
+      // Sheet columns stay consistent). AttentionCheck and NonsenseCheck
+      // answers flow in automatically via FormData above.
       payload.PROLIFIC_PID = PROLIFIC_PID;
       payload.PROLIFIC_STUDY_ID = PROLIFIC_STUDY_ID;
       payload.PROLIFIC_SESSION_ID = PROLIFIC_SESSION_ID;
@@ -1764,10 +1869,21 @@
       }
     });
 
+    setupNoneExclusivity('Screen_Activities');
+    setupNoneExclusivity('Screen_Payment');
+    setupNoneExclusivity('Screen_Platform');
+
     if (isProlific) {
-      // Prolific visitor: enable screener (as the new Step 1) and the attention
-      // check in Section E, and arm the Return-to-Prolific button.
-      document.querySelectorAll('#screenerStep input[type="radio"]').forEach(r => r.required = true);
+      // If this browser session already failed the screener, send them
+      // straight back to the screen-out completion path (no re-takes).
+      let alreadyScreenedOut = null;
+      try { alreadyScreenedOut = sessionStorage.getItem('efScreenedOut'); } catch (e) {}
+      if (alreadyScreenedOut) {
+        window.location.replace(SCREENOUT_URL);
+      }
+
+      // Prolific visitor: enable the two attention checks, arm the
+      // Return-to-Prolific button, and start at the screener (step 0).
       const acq = document.getElementById('attentionCheckQ');
       acq.style.display = 'block';
       acq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
@@ -1776,9 +1892,9 @@
       ncq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
       document.getElementById('prolificReturnBtn').style.display = 'inline-block';
       document.getElementById('prolificCodeNote').style.display = 'block';
+
       showStep(0);
     } else {
-      // Everyone else: survey exactly as before.
       showStep(1);
     }
   </script>
