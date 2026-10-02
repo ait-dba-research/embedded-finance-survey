@@ -728,31 +728,7 @@
             </div>
 
             <div class="question">
-              <label class="question-label">S4. Which of the following have you done in the past 6 months? (Select all that apply) <span class="required-star">*</span></label>
-              <div class="option-group">
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Ordered food delivery online"><span>Ordered food delivery online</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Bought event or movie tickets online"><span>Bought event or movie tickets online</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Booked accommodation online"><span>Booked accommodation online</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Played online games"><span>Played online games</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="Used online banking"><span>Used online banking</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Activities" value="none"><span>None of these</span></label>
-              </div>
-            </div>
-
-            <div class="question">
-              <label class="question-label">S5. Which of these payment methods have you used for online purchases in the past 12 months? (Select all that apply) <span class="required-star">*</span></label>
-              <div class="option-group">
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Credit or debit card"><span>Credit or debit card</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Bank transfer"><span>Bank transfer</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="E-wallet"><span>E-wallet (e.g., GrabPay, Touch &#39;n Go, TrueMoney)</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Cash on delivery"><span>Cash on delivery</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="Pay-Later"><span>Pay-Later (book or buy now, pay at a later date)</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Payment" value="none"><span>I have not made any online purchases in the past 12 months</span></label>
-              </div>
-            </div>
-
-            <div class="question">
-              <label class="question-label">S6. Which of these websites or apps have you used to book travel (flights, hotels, or other accommodation) in the past 12 months? (Select all that apply) <span class="required-star">*</span></label>
+              <label class="question-label">S4. Which of these websites or apps have you used to book travel (flights, hotels, or other accommodation) in the past 120 days? (Select all that apply) <span class="required-star">*</span></label>
               <div class="option-group">
                 <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Booking.com"><span>Booking.com</span></label>
                 <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Expedia"><span>Expedia</span></label>
@@ -761,12 +737,20 @@
                 <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Traveloka"><span>Traveloka</span></label>
                 <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Trip.com"><span>Trip.com</span></label>
                 <label class="option-label"><input type="checkbox" name="Screen_Platform" value="Hotels.com"><span>Hotels.com</span></label>
-                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="none"><span>I have not booked travel online in the past 12 months</span></label>
+                <label class="option-label"><input type="checkbox" name="Screen_Platform" value="none"><span>I have not booked travel online in the past 120 days</span></label>
               </div>
             </div>
 
             <div class="question">
-              <label class="question-label">S7. Have you previously taken part in this research study? <span class="required-star">*</span></label>
+              <label class="question-label">S5. Did you make that booking using the Pay-Later option, where you received a Booking ID immediately but the actual payment was charged at a later date? <span class="required-star">*</span></label>
+              <div class="option-group">
+                <label class="option-label"><input type="radio" name="Screen_PayLater" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_PayLater" value="No"><span>No</span></label>
+              </div>
+            </div>
+
+            <div class="question">
+              <label class="question-label">S6. Have you previously taken part in this research study? <span class="required-star">*</span></label>
               <div class="option-group">
                 <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="No" required><span>No</span></label>
                 <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="Yes"><span>Yes</span></label>
@@ -1462,20 +1446,18 @@
       const excludedRegion = document.querySelector('input[name="Screen_ExcludedRegion"]:checked');
       if (!excludedRegion || excludedRegion.value !== 'No') return { type: 'fail', reason: 'excluded_region' };
 
-      const groups = [
-        { name: 'Screen_Activities', must: 'Booked accommodation online', reason: 'no_online_accommodation' },
-        { name: 'Screen_Payment',    must: 'Pay-Later',                  reason: 'no_paylater' },
-        { name: 'Screen_Platform',   must: 'Agoda',                      reason: 'no_agoda' }
-      ];
-      for (const g of groups) {
-        const vals = checkedValues(g.name);
-        if (vals.length === 0) {
-          return { type: 'incomplete', el: document.querySelector(`input[name="${g.name}"]`) };
-        }
-        if (vals.includes('none') || !vals.includes(g.must)) {
-          return { type: 'fail', reason: g.reason };
-        }
+      // S4: platforms used in past 120 days — must include Agoda
+      const platforms = checkedValues('Screen_Platform');
+      if (platforms.length === 0) {
+        return { type: 'incomplete', el: document.querySelector('input[name="Screen_Platform"]') };
       }
+      if (platforms.includes('none') || !platforms.includes('Agoda')) {
+        return { type: 'fail', reason: 'no_agoda' };
+      }
+
+      // S5: booking must have been made using the Pay-Later option
+      const payLater = document.querySelector('input[name="Screen_PayLater"]:checked');
+      if (!payLater || payLater.value !== 'Yes') return { type: 'fail', reason: 'no_paylater' };
 
       const prior = document.querySelector('input[name="Screen_PriorParticipation"]:checked');
       if (prior && prior.value === 'Yes') return { type: 'fail', reason: 'prior_participation' };
@@ -1869,8 +1851,6 @@
       }
     });
 
-    setupNoneExclusivity('Screen_Activities');
-    setupNoneExclusivity('Screen_Payment');
     setupNoneExclusivity('Screen_Platform');
 
     if (isProlific) {
