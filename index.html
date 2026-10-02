@@ -708,13 +708,13 @@
 
             <div class="question">
               <label class="question-label">S1. What is your age? <span class="required-star">*</span></label>
-              <input type="number" name="Screen_Age" id="screenAge" placeholder="e.g. 28" min="1" max="120" required>
+              <input type="number" name="Screen_Age" id="screenAge" placeholder="e.g. 28" min="1" max="120">
             </div>
 
             <div class="question">
               <label class="question-label">S2. Do you currently live in Southeast Asia? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_ResideSEA" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ResideSEA" value="Yes"><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="Screen_ResideSEA" value="No"><span>No</span></label>
               </div>
             </div>
@@ -722,7 +722,7 @@
             <div class="question">
               <label class="question-label">S3. Are you a resident or national of the European Economic Area (EEA), the United Kingdom, Switzerland, or the United States? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_ExcludedRegion" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_ExcludedRegion" value="Yes"><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="Screen_ExcludedRegion" value="No"><span>No</span></label>
               </div>
             </div>
@@ -744,7 +744,7 @@
             <div class="question">
               <label class="question-label">S5. Did you make that booking using the Pay-Later option, where you received a Booking ID immediately but the actual payment was charged at a later date? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_PayLater" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="Screen_PayLater" value="Yes"><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="Screen_PayLater" value="No"><span>No</span></label>
               </div>
             </div>
@@ -752,7 +752,7 @@
             <div class="question">
               <label class="question-label">S6. Have you previously taken part in this research study? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="No" required><span>No</span></label>
+                <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="No"><span>No</span></label>
                 <label class="option-label"><input type="radio" name="Screen_PriorParticipation" value="Yes"><span>Yes</span></label>
               </div>
             </div>
@@ -1883,6 +1883,13 @@
       ncq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
       document.getElementById('prolificReturnBtn').style.display = 'inline-block';
       document.getElementById('prolificCodeNote').style.display = 'block';
+
+      // Screener fields are only marked required for Prolific visitors, who
+      // actually see step 0. (If they were required in the HTML, the browser's
+      // native validation would silently block submission for non-Prolific
+      // visitors because hidden required fields are "not focusable".)
+      const screenerStep = document.querySelector('.step[data-step="0"]');
+      screenerStep.querySelectorAll('input[type="number"], input[type="radio"]').forEach(el => el.required = true);
 
       showStep(0);
     } else {
