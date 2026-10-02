@@ -1821,12 +1821,19 @@
       }
 
       try {
+        // AbortController timeout: without it, a blocked/slow request to
+        // Google hangs forever and the participant thinks nothing happened.
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000);
+
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
 
         statusMsg.className = 'status-msg success';
         statusMsg.innerHTML = '&#10004; Submitted successfully! Thank you.';
@@ -1845,7 +1852,11 @@
 
       } catch (err) {
         statusMsg.className = 'status-msg error';
-        statusMsg.textContent = '&#10008; Error: ' + err.message;
+        if (err.name === 'AbortError') {
+          statusMsg.innerHTML = '&#10008; <strong>The submission timed out.</strong> This is usually caused by an ad-blocker, privacy extension, or VPN blocking the connection to Google. Please pause any ad-blocker for this page and click "Submit Survey" again &mdash; your answers are still here.';
+        } else {
+          statusMsg.innerHTML = '&#10008; <strong>Submission failed:</strong> ' + err.message + '<br>Please check your internet connection (and pause any ad-blocker for this page), then click "Submit Survey" again &mdash; your answers are still here.';
+        }
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Survey';
       }
