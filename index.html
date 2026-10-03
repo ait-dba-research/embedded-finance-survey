@@ -838,8 +838,8 @@
             <!-- PRIVACY NOTICE (data-protection summary; separate from the verbatim legal consent text above) -->
             <div class="consent-box" style="border-color: var(--primary);">
               <h3>Privacy Notice</h3>
-              <p style="font-size:12px; color:var(--text-light);">This notice summarises how your personal data is handled. The consent form above contains the full legal terms; where it refers to email addresses, please note that this survey does not collect email addresses at all.</p>
-              <p><strong>Data collected:</strong> your full name and 10-digit Booking ID (for the legal consent record and verification of your authorization), together with your survey answers (including age and gender). No email address is collected.</p>
+              <p style="font-size:12px; color:var(--text-light);">This notice summarises how your personal data is handled. The consent form above contains the full legal terms; where it refers to email addresses, providing one is entirely optional and it is used solely for follow-up contact about your responses.</p>
+              <p><strong>Data collected:</strong> your full name and 10-digit Booking ID (for the legal consent record and verification of your authorization), together with your survey answers (including age and gender). Your email address is optional and, if provided, is used solely for follow-up contact about your responses.</p>
               <p><strong>Use:</strong> your name and Booking ID verify your consent under a Data Sharing Agreement with the platform; the Booking ID authorizes one-time extraction of three numerical usability metrics (clicks, task duration, task deviation) for that booking. Analysis is performed on de-identified data only; all published outputs contain aggregated statistics only.</p>
               <p><strong>Lawful basis:</strong> your explicit informed consent, given before any data is collected. Participation is voluntary and you may withdraw before submitting, without consequence.</p>
               <p><strong>Retention:</strong> identifiers (name, Booking ID) are stored separately from research data and destroyed within approximately 12 months, once verification is complete; de-identified research data is permanently deleted within five (5) years of study completion.</p>
@@ -1289,10 +1289,14 @@
             <div class="section-desc">Thank you for your participation! A few final details.</div>
 
             <div class="question">
-              <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);">This survey does not collect email addresses. Any contact would be made through the platform where you found this survey (e.g., Prolific&rsquo;s messaging system).</span></label>
+              <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);" id="contactConsentNote">Any contact would be made through the platform where you found this survey (e.g., Prolific&rsquo;s messaging system).</span></label>
               <div class="option-group">
                 <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
+              </div>
+              <div class="conditional-field" id="emailField">
+                <input type="email" name="Email" id="emailInput" placeholder="Your email address (optional)">
+                <p style="font-size:12px; color:var(--text-light); margin:8px 0 0;">Optional. If provided, your email address will be used solely to contact you for clarification or follow-up questions about your survey responses. It will be stored securely, will NOT be shared with the platform or any third party, and will be deleted once verification is complete (within approximately 12 months). Leaving this blank has no effect on your participation.</p>
               </div>
             </div>
 
@@ -1319,6 +1323,9 @@
           <br>
           <a href="https://app.prolific.com/submissions/complete?cc=CAZ6T3C4" id="prolificReturnBtn" class="pdf-download-btn" style="display:none; margin-top:14px; text-decoration:none;">&#8594; Return to Prolific to complete your submission</a>
           <p id="prolificCodeNote" style="display:none; margin-top:10px; font-size:13px; color:var(--text-light);">If asked for a completion code on Prolific, it is: <strong>CAZ6T3C4</strong></p>
+          <div style="margin-top:22px; padding:16px 20px; background:#f0f4f8; border:1px solid #d0d0d0; border-radius:10px; max-width:520px; margin-left:auto; margin-right:auto;">
+            <p style="margin:0; font-size:14px; color:var(--text-light); line-height:1.6;">Redeem the following Survey Code at <strong>surveycircle.com</strong> and get free survey participants through SurveyCircle:<br><strong style="font-size:17px; color:var(--primary); letter-spacing:1px;">KRM4-2SV7-E2LM-J9PN</strong></p>
+          </div>
         </div>
 
         
@@ -1863,6 +1870,21 @@
     });
 
     setupNoneExclusivity('Screen_Platform');
+
+    // Optional email field: shown only to non-Prolific visitors (Prolific
+    // prohibits collecting email without separate approval; Prolific users are
+    // reachable via Prolific's internal messaging). Cleared if consent is "No".
+    if (!isProlific) {
+      document.getElementById('emailField').classList.add('visible');
+    }
+    document.querySelectorAll('input[name="ContactConsent"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'No') {
+          const em = document.getElementById('emailInput');
+          if (em) em.value = '';
+        }
+      });
+    });
 
     if (isProlific) {
       // If this browser session already failed the screener, send them
