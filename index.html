@@ -1729,6 +1729,31 @@
     let consentPdfBase64 = null;
     let consentPdfFileName = null;
 
+    // Renders text in ANY script (Thai, Vietnamese, Khmer, Lao, Burmese, ...)
+    // using the browser's own fonts, for embedding into the jsPDF consent form.
+    // jsPDF's built-in fonts support only basic Latin, so free-text fields that
+    // may contain local-script characters must be drawn via canvas.
+    function unicodeTextImage(text) {
+      const SCALE = 4, FONT_PX = 14 * SCALE; // 10.5pt rendered at 4x for crispness
+      const cv = document.createElement('canvas');
+      const fontSpec = FONT_PX + 'px Arial, "Helvetica Neue", "Noto Sans", sans-serif';
+      let ctx = cv.getContext('2d');
+      ctx.font = fontSpec;
+      const w = Math.max(ctx.measureText(text).width, FONT_PX) + FONT_PX * 0.2;
+      cv.width = Math.ceil(w);
+      cv.height = Math.ceil(FONT_PX * 1.35);
+      ctx = cv.getContext('2d');
+      ctx.font = fontSpec;
+      ctx.fillStyle = '#000000';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(text, FONT_PX * 0.1, FONT_PX * 1.0);
+      return {
+        dataUrl: cv.toDataURL('image/png'),
+        widthPt: cv.width / SCALE * 0.75,
+        heightPt: cv.height / SCALE * 0.75
+      };
+    }
+
     function generateConsentPDF(bookingId, fullName, consentDate) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ unit: 'pt', format: 'a4' });
@@ -1764,12 +1789,22 @@
       y += 44;
       doc.setFont('helvetica', 'normal'); doc.setFontSize(10.5);
       doc.text('Agoda Booking ID (10 digits):  ' + bookingId, margin, y); y += 22;
-      doc.text('Participant Name (exactly as on the booking):  ' + fullName, margin, y); y += 22;
+      // Name may be in Thai or another local script — embed as a canvas-rendered
+      // image so it appears exactly as the participant typed it.
+      const nameLabel = 'Participant Name (exactly as on the booking):  ';
+      doc.text(nameLabel, margin, y);
+      const nameImg = unicodeTextImage(fullName || '-');
+      const labelW = doc.getTextWidth(nameLabel);
+      const maxImgW = maxW - labelW;
+      let imgW = nameImg.widthPt, imgH = nameImg.heightPt;
+      if (imgW > maxImgW) { imgH = imgH * (maxImgW / imgW); imgW = maxImgW; }
+      doc.addImage(nameImg.dataUrl, 'PNG', margin + labelW, y - imgH * 0.74, imgW, imgH);
+      y += 22;
       doc.text('Date of Submission:  ' + consentDate, margin, y); y += 22;
       doc.setFontSize(8.5); doc.setTextColor(110);
       doc.text('Consent recorded electronically via the study survey. Timestamp (UTC): ' + new Date().toISOString(), margin, y);
 
-      consentPdfFileName = 'Consent_' + bookingId + '_' + fullName.replace(/[^a-z0-9]+/gi, '_') + '.pdf';
+      consentPdfFileName = 'Consent_' + bookingId + '_' + (fullName.replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_+|_+$/g, '') || 'Participant') + '.pdf';
       consentPdfBase64 = doc.output('datauristring').split(',')[1];
       return doc;
     }
