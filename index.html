@@ -774,7 +774,7 @@
             <!-- VERBATIM CONSENT TEXT (per Agoda Data Sharing Agreement, Schedule 1 — do not modify) -->
             <div class="consent-box">
               <h3>Participant Information Sheet &amp; Informed Consent Form</h3>
-              <p style="font-size:12px; color:var(--text-light);"><strong>Doctoral Academic Research Study:</strong> Exploring the relationship between usability metrics, consumer perceptions and perceived financial flexibility<br>
+              <p style="font-size:12px; color:var(--text-light);"><strong>Doctoral Academic Research Study:</strong> Exploring the relationship between usability metrics, consumer perceptions and perceived financial benefits<br>
               <strong>Researcher:</strong> Jibran Bugvi, Doctoral Candidate, Asian Institute of Technology (AIT) (&ldquo;Researcher&rdquo;)<br>
               <strong>Contact Email:</strong> st122430@ait.asia</p>
 
@@ -835,8 +835,10 @@
               </ol>
             </div>
 
-            <!-- PRIVACY NOTICE (data-protection summary; separate from the verbatim legal consent text above) -->
-            <div class="consent-box" style="border-color: var(--primary);">
+            <!-- PRIVACY NOTICE (Prolific visitors only — written to match Prolific's
+                 8-heading privacy-notice checklist. Hidden for all other channels; the
+                 verbatim consent form above already covers the same content.) -->
+            <div class="consent-box" id="privacyNotice" style="display:none; border-color: var(--primary);">
               <h3>Privacy Notice</h3>
               <p style="font-size:12px; color:var(--text-light);">This notice summarises how your personal data is handled. The consent form above contains the full legal terms; where it refers to email addresses, providing one is entirely optional and it is used solely for follow-up contact about your responses.</p>
               <p><strong>Data collected:</strong> your full name and 10-digit Booking ID (for the legal consent record and verification of your authorization), together with your survey answers (including age and gender). Your email address is optional and, if provided, is used solely for follow-up contact about your responses.</p>
@@ -1289,7 +1291,7 @@
             <div class="section-desc">Thank you for your participation! A few final details.</div>
 
             <div class="question">
-              <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);" id="contactConsentNote">Any contact would be made through the platform where you found this survey (e.g., Prolific&rsquo;s messaging system).</span></label>
+              <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);" id="contactConsentNote">If you consent, you may optionally provide your email address below. It will be used solely for follow-up contact about your responses.</span></label>
               <div class="option-group">
                 <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
@@ -1696,7 +1698,7 @@
     // ---------- CONSENT PDF GENERATION ----------
     const CONSENT_PDF_TEXT = [
       ['H', 'PARTICIPANT INFORMATION SHEET & INFORMED CONSENT FORM'],
-      ['P', 'Doctoral Academic Research Study: Exploring the relationship between usability metrics, consumer perceptions and perceived financial flexibility'],
+      ['P', 'Doctoral Academic Research Study: Exploring the relationship between usability metrics, consumer perceptions and perceived financial benefits'],
       ['P', 'Researcher: Jibran Bugvi, Doctoral Candidate, Asian Institute of Technology (AIT) ("Researcher")  |  Contact Email: st122430@ait.asia'],
       ['S', '1. NATURE AND INDEPENDENCE OF THE STUDY'],
       ['P', 'You are invited to take part in an independent academic research study conducted by Jibran Bugvi, a doctoral candidate at the Asian Institute of Technology (AIT). This study seeks to explore the relationship between usability metrics, consumer perceptions and perceived financial flexibility through the lens of Agoda\u2019s Pay-Later feature, where customers make a travel booking but pay for the purchase at a later date rather than at the time of the booking.'],
@@ -1905,6 +1907,12 @@
       ncq.querySelectorAll('input[type="radio"]').forEach(r => r.required = true);
       document.getElementById('prolificReturnBtn').style.display = 'inline-block';
       document.getElementById('prolificCodeNote').style.display = 'block';
+
+      // Prolific-only wording and the privacy notice (required by Prolific;
+      // non-Prolific channels see the verbatim consent form only)
+      document.getElementById('privacyNotice').style.display = 'block';
+      document.getElementById('contactConsentNote').innerHTML =
+        'This survey does not collect email addresses. Any contact would be made through Prolific&rsquo;s messaging system.';
 
       // Screener fields are only marked required for Prolific visitors, who
       // actually see step 0. (If they were required in the HTML, the browser's
