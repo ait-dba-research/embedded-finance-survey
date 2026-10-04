@@ -682,6 +682,7 @@
         </svg>
         <h1>Usability Experience Study</h1>
         <p>Asian Institute of Technology &mdash; Exploring the relationship between usability metrics, consumer perceptions and perceived financial flexibility.</p>
+        <p style="margin-top:8px; font-size:13px; color:#fff; opacity:0.92; line-height:1.5;"><strong>Note:</strong> In this survey, &ldquo;Pay Later&rdquo; means a booking made on Agoda where the Pay Later option is chosen &mdash; your payment method is NOT charged on the booking date; payment is charged automatically on a later date. Any payment method may be used for the eventual charge.</p>
         <p class="contact-line">For questions about this study, please contact the research team at st122430@ait.asia</p>
       </div>
 
@@ -1321,6 +1322,9 @@
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <h2>Thank You!</h2>
           <p>Your responses have been recorded successfully.<br>We appreciate your participation in this research.</p>
+          <div style="margin-top:16px; padding:14px 20px; background:#eef6f0; border:1px solid #2ecc71; border-radius:10px; max-width:520px; margin-left:auto; margin-right:auto;">
+            <p style="margin:0; font-size:14px; color:#2c5f41; line-height:1.6;">Your Response ID:<br><strong id="responseCodeDisplay" style="font-size:20px; color:var(--primary); letter-spacing:2px;"></strong><br><span style="font-size:12.5px;">Please take a screenshot of this page &mdash; it is proof of your participation.</span></p>
+          </div>
           <button type="button" class="pdf-download-btn" id="downloadConsentBtn">&#11015; Download my signed consent form (PDF)</button>
           <br>
           <a href="https://app.prolific.com/submissions/complete?cc=CAZ6T3C4" id="prolificReturnBtn" class="pdf-download-btn" style="display:none; margin-top:14px; text-decoration:none;">&#8594; Return to Prolific to complete your submission</a>
@@ -1864,6 +1868,12 @@
         payload.ConsentSignatureText = '[X] I AGREE AND CONSENT TO ALL OF THE ABOVE.  |  Agoda Booking ID (10 digits): ' + (payload.BookingID || '') + '  |  Participant Name (exactly as on the booking): ' + (payload.FullName || '') + '  |  Date of Submission: ' + payload.ConsentDate + '  |  Consent recorded electronically via the study survey. Timestamp (UTC): ' + payload.ConsentTimestampUTC;
       }
 
+      // Unique Response ID: shown on the thank-you page and stored in the
+      // Google Sheet, so the researcher can match a participant's screenshot
+      // to the correct row for payment.
+      const responseCode = 'EF-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+      payload.CompletionCode = responseCode;
+
       try {
         // AbortController timeout: without it, a blocked/slow request to
         // Google hangs forever and the participant thinks nothing happened.
@@ -1885,6 +1895,7 @@
         setTimeout(() => {
           document.getElementById('surveyForm').style.display = 'none';
           document.querySelector('.nav-buttons').style.display = 'none';
+          document.getElementById('responseCodeDisplay').textContent = responseCode;
           document.getElementById('thankYou').classList.add('active');
           document.getElementById('stepLabel').textContent = 'Survey Complete';
           document.getElementById('topProgressFill').style.width = '100%';
