@@ -819,7 +819,7 @@
             <div class="question">
               <div class="option-group">
                 <label class="option-label">
-                  <input type="checkbox" name="Consent" value="I AGREE AND CONSENT TO ALL OF THE ABOVE" required>
+                  <input type="checkbox" name="Consent" value="I AGREE AND CONSENT TO ALL OF THE ABOVE" data-req>
                   <span><strong>&#9744; I AGREE AND CONSENT TO ALL OF THE ABOVE.</strong></span>
                 </label>
               </div>
@@ -828,7 +828,7 @@
             <div class="signature-line">
               <div class="question" style="margin-bottom:10px;">
                 <label class="question-label">Participant Name (must correspond exactly to the name under which the booking and Booking ID was made) <span class="required-star">*</span></label>
-                <input type="text" name="FullName" id="fullNameInput" placeholder="Full name as on the booking" required>
+                <input type="text" name="FullName" id="fullNameInput" placeholder="Full name as on the booking" data-req>
               </div>
               <p style="font-size:12px; color:var(--text-light); margin:0;">Date of submission and your Booking ID (entered in Section A) will be recorded automatically on your consent record. After you submit, you will be able to download a PDF copy of your completed consent form for your records.</p>
             </div>
@@ -844,12 +844,12 @@
 
             <div class="question">
               <label class="question-label">2. 10-digit Booking ID (for booking made on Agoda in past 120 days; this can be seen on the app or on booking voucher) <span class="required-star">*</span></label>
-              <input type="text" name="BookingID" id="bookingIdInput" placeholder="e.g. 1234567890" maxlength="10" pattern="\d{10}" inputmode="numeric" required>
+              <input type="text" name="BookingID" id="bookingIdInput" placeholder="e.g. 1234567890" maxlength="10" pattern="\d{10}" inputmode="numeric" data-req>
             </div>
 
             <div class="question">
               <label class="question-label">3. Your age? <span class="required-star">*</span></label>
-              <input type="number" name="Age" id="ageInput" placeholder="e.g. 28" min="1" max="120" required>
+              <input type="number" name="Age" id="ageInput" placeholder="e.g. 28" min="1" max="120" data-req>
               <div class="age-error" id="ageError">
                 &#9888; You must be at least 21 years old to participate in this study.
               </div>
@@ -858,7 +858,7 @@
             <div class="question">
               <label class="question-label">4. Gender? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="Gender" value="Male" required><span>Male</span></label>
+                <label class="option-label"><input type="radio" name="Gender" value="Male" data-req><span>Male</span></label>
                 <label class="option-label"><input type="radio" name="Gender" value="Female"><span>Female</span></label>
                 <label class="option-label"><input type="radio" name="Gender" value="Non-binary"><span>Non-binary</span></label>
                 <label class="option-label"><input type="radio" name="Gender" value="Prefer not to say"><span>Prefer not to say</span></label>
@@ -868,7 +868,7 @@
             <div class="question">
               <label class="question-label">5. In the 12 months before this booking, how many times had you used a Pay-Later feature on any online platform? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" required><span>Never</span></label>
+                <label class="option-label"><input type="radio" name="PayLaterFrequency" value="1 - Never" data-req><span>Never</span></label>
                 <label class="option-label"><input type="radio" name="PayLaterFrequency" value="2 - 1-2 times"><span>1-2 times</span></label>
                 <label class="option-label"><input type="radio" name="PayLaterFrequency" value="3 - 3-5 times"><span>3-5 times</span></label>
                 <label class="option-label"><input type="radio" name="PayLaterFrequency" value="4 - 6-11 times"><span>6-11 times</span></label>
@@ -879,7 +879,7 @@
             <div class="question">
               <label class="question-label">6. Purpose of booking? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Business" required><span>Business</span></label>
+                <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Business" data-req><span>Business</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with family)"><span>Leisure (with family)</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (with friends)"><span>Leisure (with friends)</span></label>
                 <label class="option-label"><input type="radio" name="PurposeOfBooking" value="Leisure (alone)"><span>Leisure (alone)</span></label>
@@ -895,7 +895,7 @@
             <div class="question">
               <label class="question-label">7. Did you expect this trip to provide you with a future financial or professional benefit (e.g., income, business opportunities, or career-related benefits)? <span class="required-star">*</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Yes" data-req><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="No"><span>No</span></label>
                 <label class="option-label"><input type="radio" name="FutureEconomicBenefit" value="Not Applicable"><span>Not Applicable</span></label>
               </div>
@@ -918,7 +918,7 @@
             <div class="question">
               <label class="question-label">9. I found Pay-Later useful for this booking. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="B1_Useful" value="1" id="b1_1" required><label for="b1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B1_Useful" value="1" id="b1_1" data-req><label for="b1_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="B1_Useful" value="2" id="b1_2"><label for="b1_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="B1_Useful" value="3" id="b1_3"><label for="b1_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="B1_Useful" value="4" id="b1_4"><label for="b1_4" class="likert-box">4</label></div>
@@ -932,7 +932,7 @@
             <div class="question">
               <label class="question-label">10. Using Pay-Later helped me complete the booking process more quickly. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="B2_Quickly" value="1" id="b2_1" required><label for="b2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B2_Quickly" value="1" id="b2_1" data-req><label for="b2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="B2_Quickly" value="2" id="b2_2"><label for="b2_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="B2_Quickly" value="3" id="b2_3"><label for="b2_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="B2_Quickly" value="4" id="b2_4"><label for="b2_4" class="likert-box">4</label></div>
@@ -946,7 +946,7 @@
             <div class="question">
               <label class="question-label">11. Using Pay-Later made the booking process more efficient for me. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="B3_Efficient" value="1" id="b3_1" required><label for="b3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="B3_Efficient" value="1" id="b3_1" data-req><label for="b3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="B3_Efficient" value="2" id="b3_2"><label for="b3_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="B3_Efficient" value="3" id="b3_3"><label for="b3_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="B3_Efficient" value="4" id="b3_4"><label for="b3_4" class="likert-box">4</label></div>
@@ -969,7 +969,7 @@
             <div class="question">
               <label class="question-label">12. Learning to use Pay-Later was easy for me. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="1" id="c1_1" required><label for="c1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="1" id="c1_1" data-req><label for="c1_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="2" id="c1_2"><label for="c1_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="3" id="c1_3"><label for="c1_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="C1_EasyToLearn" value="4" id="c1_4"><label for="c1_4" class="likert-box">4</label></div>
@@ -983,7 +983,7 @@
             <div class="question">
               <label class="question-label">13. My interaction with Pay-Later was clear and understandable. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="C2_Clear" value="1" id="c2_1" required><label for="c2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C2_Clear" value="1" id="c2_1" data-req><label for="c2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="C2_Clear" value="2" id="c2_2"><label for="c2_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="C2_Clear" value="3" id="c2_3"><label for="c2_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="C2_Clear" value="4" id="c2_4"><label for="c2_4" class="likert-box">4</label></div>
@@ -997,7 +997,7 @@
             <div class="question">
               <label class="question-label">14. I found Pay-Later easy to use. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="1" id="c3_1" required><label for="c3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="1" id="c3_1" data-req><label for="c3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="2" id="c3_2"><label for="c3_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="3" id="c3_3"><label for="c3_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="C3_EasyToUse" value="4" id="c3_4"><label for="c3_4" class="likert-box">4</label></div>
@@ -1011,7 +1011,7 @@
             <div class="question">
               <label class="question-label">15. It was easy for me to become skilful at using Pay-Later. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="C4_Skilful" value="1" id="c4_1" required><label for="c4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="C4_Skilful" value="1" id="c4_1" data-req><label for="c4_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="C4_Skilful" value="2" id="c4_2"><label for="c4_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="C4_Skilful" value="3" id="c4_3"><label for="c4_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="C4_Skilful" value="4" id="c4_4"><label for="c4_4" class="likert-box">4</label></div>
@@ -1034,7 +1034,7 @@
             <div class="question">
               <label class="question-label">16. I had the resources necessary to use Pay-Later. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="D1_Resources" value="1" id="d1_1" required><label for="d1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D1_Resources" value="1" id="d1_1" data-req><label for="d1_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="D1_Resources" value="2" id="d1_2"><label for="d1_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="D1_Resources" value="3" id="d1_3"><label for="d1_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="D1_Resources" value="4" id="d1_4"><label for="d1_4" class="likert-box">4</label></div>
@@ -1048,7 +1048,7 @@
             <div class="question">
               <label class="question-label">17. I had the knowledge necessary to use Pay-Later. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="1" id="d2_1" required><label for="d2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D2_Knowledge" value="1" id="d2_1" data-req><label for="d2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="D2_Knowledge" value="2" id="d2_2"><label for="d2_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="D2_Knowledge" value="3" id="d2_3"><label for="d2_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="D2_Knowledge" value="4" id="d2_4"><label for="d2_4" class="likert-box">4</label></div>
@@ -1062,7 +1062,7 @@
             <div class="question">
               <label class="question-label">18. Pay-Later was compatible with the technologies and payment services I normally use. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="D3_Compatible" value="1" id="d3_1" required><label for="d3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D3_Compatible" value="1" id="d3_1" data-req><label for="d3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="D3_Compatible" value="2" id="d3_2"><label for="d3_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="D3_Compatible" value="3" id="d3_3"><label for="d3_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="D3_Compatible" value="4" id="d3_4"><label for="d3_4" class="likert-box">4</label></div>
@@ -1076,7 +1076,7 @@
             <div class="question">
               <label class="question-label">19. I could get help if I had difficulties using Pay-Later. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="D4_Help" value="1" id="d4_1" required><label for="d4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="D4_Help" value="1" id="d4_1" data-req><label for="d4_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="D4_Help" value="2" id="d4_2"><label for="d4_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="D4_Help" value="3" id="d4_3"><label for="d4_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="D4_Help" value="4" id="d4_4"><label for="d4_4" class="likert-box">4</label></div>
@@ -1099,7 +1099,7 @@
             <div class="question">
               <label class="question-label">20. Using Pay-Later provided me financial flexibility. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="1" id="e1_1" required><label for="e1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="1" id="e1_1" data-req><label for="e1_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="2" id="e1_2"><label for="e1_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="3" id="e1_3"><label for="e1_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="E1_FinancialFlexibility" value="4" id="e1_4"><label for="e1_4" class="likert-box">4</label></div>
@@ -1113,7 +1113,7 @@
             <div class="question">
               <label class="question-label">21. Pay-Later helped me manage my cash flow better. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="1" id="e2_1" required><label for="e2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E2_CashFlow" value="1" id="e2_1" data-req><label for="e2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="E2_CashFlow" value="2" id="e2_2"><label for="e2_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="E2_CashFlow" value="3" id="e2_3"><label for="e2_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="E2_CashFlow" value="4" id="e2_4"><label for="e2_4" class="likert-box">4</label></div>
@@ -1127,7 +1127,7 @@
             <div class="question">
               <label class="question-label">22. Deferring payment was financially useful for me. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="1" id="e3_1" required><label for="e3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="1" id="e3_1" data-req><label for="e3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="2" id="e3_2"><label for="e3_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="3" id="e3_3"><label for="e3_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="E3_FinanciallyUseful" value="4" id="e3_4"><label for="e3_4" class="likert-box">4</label></div>
@@ -1141,7 +1141,7 @@
             <div class="question">
               <label class="question-label">23. Using Pay-Later helped me manage the timing of my travel expenses. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="1" id="e4_1" required><label for="e4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="1" id="e4_1" data-req><label for="e4_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="2" id="e4_2"><label for="e4_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="3" id="e4_3"><label for="e4_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="E4_ManageTiming" value="4" id="e4_4"><label for="e4_4" class="likert-box">4</label></div>
@@ -1164,7 +1164,7 @@
             <div class="question">
               <label class="question-label">24. I intend to use Pay-Later for my future travel bookings. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="F1_Intend" value="1" id="f1_1" required><label for="f1_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F1_Intend" value="1" id="f1_1" data-req><label for="f1_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F1_Intend" value="2" id="f1_2"><label for="f1_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="F1_Intend" value="3" id="f1_3"><label for="f1_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="F1_Intend" value="4" id="f1_4"><label for="f1_4" class="likert-box">4</label></div>
@@ -1178,7 +1178,7 @@
             <div class="question">
               <label class="question-label">25. I will try to use Pay-Later for my future travel bookings. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="F2_WillTry" value="1" id="f2_1" required><label for="f2_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F2_WillTry" value="1" id="f2_1" data-req><label for="f2_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F2_WillTry" value="2" id="f2_2"><label for="f2_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="F2_WillTry" value="3" id="f2_3"><label for="f2_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="F2_WillTry" value="4" id="f2_4"><label for="f2_4" class="likert-box">4</label></div>
@@ -1192,7 +1192,7 @@
             <div class="question">
               <label class="question-label">26. I plan to continue using Pay-Later for future travel bookings. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="F3_Continue" value="1" id="f3_1" required><label for="f3_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F3_Continue" value="1" id="f3_1" data-req><label for="f3_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F3_Continue" value="2" id="f3_2"><label for="f3_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="F3_Continue" value="3" id="f3_3"><label for="f3_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="F3_Continue" value="4" id="f3_4"><label for="f3_4" class="likert-box">4</label></div>
@@ -1206,7 +1206,7 @@
             <div class="question">
               <label class="question-label">27. I would be willing to use Pay-Later for my next travel booking. <span class="required-star">*</span></label>
               <div class="likert-container">
-                <div class="likert-option"><input type="radio" name="F4_Willing" value="1" id="f4_1" required><label for="f4_1" class="likert-box">1</label></div>
+                <div class="likert-option"><input type="radio" name="F4_Willing" value="1" id="f4_1" data-req><label for="f4_1" class="likert-box">1</label></div>
                 <div class="likert-option"><input type="radio" name="F4_Willing" value="2" id="f4_2"><label for="f4_2" class="likert-box">2</label></div>
                 <div class="likert-option"><input type="radio" name="F4_Willing" value="3" id="f4_3"><label for="f4_3" class="likert-box">3</label></div>
                 <div class="likert-option"><input type="radio" name="F4_Willing" value="4" id="f4_4"><label for="f4_4" class="likert-box">4</label></div>
@@ -1229,7 +1229,7 @@
             <div class="question">
               <label class="question-label">28. Do you consent to be contacted later for additional questions on your responses? <span class="required-star">*</span><br><span style="font-weight:normal; font-size:13px; color:var(--text-light);" id="contactConsentNote">If you consent, you may optionally provide your email address below. It will be used solely for follow-up contact about your responses.</span></label>
               <div class="option-group">
-                <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" required><span>Yes</span></label>
+                <label class="option-label"><input type="radio" name="ContactConsent" value="Yes" data-req><span>Yes</span></label>
                 <label class="option-label"><input type="radio" name="ContactConsent" value="No"><span>No</span></label>
               </div>
               <div class="conditional-field" id="emailField">
@@ -1456,7 +1456,7 @@
 
     function validateCurrentStep() {
       const currentStepEl = document.querySelector('.step.active');
-      const requiredFields = currentStepEl.querySelectorAll('[required]');
+      const requiredFields = currentStepEl.querySelectorAll('[data-req]');
 
       for (let field of requiredFields) {
         if (field.type === 'checkbox') {
