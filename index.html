@@ -1693,9 +1693,15 @@
       generateConsentPDF(bid, nm, dt).save(consentPdfFileName);
     });
 
+    let formSubmitted = false; // synchronous re-entry guard: rapid double-clicks (or Enter key in a text field) must never post twice
     document.getElementById('surveyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      if (formSubmitted) return;
+      // Implicit submission (Enter key in a text field) can fire from ANY step —
+      // only the real Submit button on the final step may proceed.
+      if (currentStep !== totalSteps) return;
       if (!validateCurrentStep()) return;
+      formSubmitted = true; // set BEFORE any await so a second event can never enter
 
       const submitBtn = document.getElementById('submitBtn');
       const statusMsg = document.getElementById('statusMsg');
@@ -1778,6 +1784,7 @@
         } else {
           statusMsg.innerHTML = '&#10008; <strong>Submission failed:</strong> ' + err.message + '<br>Please check your internet connection (and pause any ad-blocker for this page), then click "Submit Survey" again &mdash; your answers are still here.';
         }
+        formSubmitted = false; // allow retry after a failed/timed-out attempt
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Survey';
       }
