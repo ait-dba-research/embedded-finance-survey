@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- build: v2026-10-09-iphonefix2 -->
+    <!-- build: v2026-10-09-novalidate -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Usability Experience Study</title>
   <style>
@@ -695,7 +695,7 @@
       <div class="step-label" id="stepLabel">Step 1 of 8: Consent Form</div>
 
       <div class="form-body" id="formBody">
-        <form id="surveyForm">
+        <form id="surveyForm" novalidate>
 
 
           <!-- STEP E: ELIGIBILITY CHECK (ALL visitors — the very first page.
@@ -1479,6 +1479,7 @@
             return false;
           }
         } else {
+          if (field.value !== field.value.trim()) field.value = field.value.trim();
           if (!field.value.trim()) {
             field.scrollIntoView({ behavior: 'smooth', block: 'center' });
             field.classList.add('error');
@@ -1710,6 +1711,12 @@
       statusMsg.className = 'status-msg loading';
       statusMsg.textContent = 'Sending your responses... Please wait.';
 
+      // Strip invisible characters autofill can inject into the Booking ID
+      // (e.g. a trailing space Android Chrome adds). Without this, a real ID
+      // fails validation silently.
+      const bidEl = document.getElementById('bookingIdInput');
+      if (bidEl) bidEl.value = bidEl.value.trim();
+
       const formData = new FormData(this);
       const payload = {};
       formData.forEach((value, key) => payload[key] = value);
@@ -1821,6 +1828,6 @@
        showing a stale cached copy of the page (iOS Safari restores old tabs
        without re-downloading) - tell them to close the tab completely and
        open the survey link again in a fresh tab. -->
-  <div style="text-align:center; font-size:11px; color:#9AA5B1; padding:10px 0 18px;">Survey version: 9 Oct 2026</div>
+  <div style="text-align:center; font-size:11px; color:#9AA5B1; padding:10px 0 18px;">Survey version: 9 Oct 2026 (v2)</div>
 </body>
 </html>
