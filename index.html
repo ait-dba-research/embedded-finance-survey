@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- build: v2026-10-08-requiredfix -->
+    <!-- build: v2026-10-09-iphonefix2 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Usability Experience Study</title>
   <style>
@@ -671,7 +671,6 @@
     document.write('<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"><\/script>');
   }
 </script>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -1749,8 +1748,11 @@
       try {
         // AbortController timeout: without it, a blocked/slow request to
         // Google hangs forever and the participant thinks nothing happened.
+        // The v7 server replies in ~2-5s (fast path); 15s leaves room for an
+        // Apps Script cold start while still surfacing blocked-connection
+        // errors (ad-blocker/VPN) before the participant gives up.
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000);
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -1763,6 +1765,7 @@
 
         statusMsg.className = 'status-msg success';
         statusMsg.innerHTML = '&#10004; Submitted successfully! Thank you.';
+        statusMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         setTimeout(() => {
           document.getElementById('surveyForm').style.display = 'none';
@@ -1787,6 +1790,10 @@
         formSubmitted = false; // allow retry after a failed/timed-out attempt
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Survey';
+        // On phones the error can render off-screen; bring it into view so the
+        // participant actually sees the ad-blocker guidance instead of thinking
+        // the page is broken.
+        statusMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
 
@@ -1809,5 +1816,11 @@
 
     showStep('E');
   </script>
+  <!-- Visible version tag: when a participant reports a problem, ask them what
+       this line says. If it is missing or shows an older date, their phone is
+       showing a stale cached copy of the page (iOS Safari restores old tabs
+       without re-downloading) - tell them to close the tab completely and
+       open the survey link again in a fresh tab. -->
+  <div style="text-align:center; font-size:11px; color:#9AA5B1; padding:10px 0 18px;">Survey version: 9 Oct 2026</div>
 </body>
 </html>
